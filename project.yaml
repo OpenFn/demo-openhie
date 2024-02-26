@@ -6,8 +6,8 @@ workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Transform-data-to-FHIR-standard:
-        name: Transform data to FHIR standard
+      Done-stuff-data-to-FHIR-standard:
+        name: Done stuff data to FHIR standard
         adaptor: '@openfn/language-http@latest'
         # credential:
         # globals:
@@ -43,13 +43,13 @@ workflows:
         type: webhook
         enabled: true
     edges:
-      webhook->Transform-data-to-FHIR-standard:
+      webhook->Done-stuff-data-to-FHIR-standard:
         source_trigger: webhook
-        target_job: Transform-data-to-FHIR-standard
+        target_job: Done-stuff-data-to-FHIR-standard
         condition_type: always
         enabled: true
-      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-data-to-FHIR-standard
+      Done-stuff-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Done-stuff-data-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true

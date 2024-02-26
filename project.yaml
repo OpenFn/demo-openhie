@@ -7,7 +7,7 @@ workflows:
     name: OpenHIE Workflow
     jobs:
       Done-stuff-data-to-FHIR-standard:
-        name: Done stuff data to FHIR standard
+        name: Now i am a test
         adaptor: '@openfn/language-http@latest'
         # credential:
         # globals:

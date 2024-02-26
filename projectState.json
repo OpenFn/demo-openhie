@@ -12,7 +12,7 @@
       "id": "199b7c78-36b4-4f3d-836f-004a5bb64293",
       "name": "OpenHIE Workflow",
       "inserted_at": "2024-02-26T00:01:10",
-      "updated_at": "2024-02-26T13:28:05",
+      "updated_at": "2024-02-26T13:37:15",
       "project_id": "4adf2644-ed4e-4f97-a24c-ab35b3cb1efa",
       "deleted_at": null,
       "triggers": {
@@ -32,7 +32,7 @@
         "Send-to-OpenHIM-to-route-to-SHR": {
           "id": "918a439b-1f62-4357-b823-be031dae7bab",
           "name": "Send to OpenHIM to route to SHR",
-          "body": "fn(state => state);\n",
+          "body": "fn(state => state);\nfn(x => {\n  console.log(\"hi there!\")\n  return x;\n})",
           "adaptor": "@openfn/language-http@latest"
         },
         "Notify-CHW-upload-successful": {

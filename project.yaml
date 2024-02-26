@@ -21,7 +21,10 @@ workflows:
         # globals:
         body: |
           fn(state => state);
-          
+          fn(x => {
+            console.log("hi there!")
+            return x;
+          })
       Notify-CHW-upload-successful:
         name: Notify CHW upload successful
         adaptor: '@openfn/language-http@latest'

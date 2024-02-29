@@ -6,8 +6,8 @@ workflows:
   OpenHIE-Workflow:
     name: OpenHIE Workflow
     jobs:
-      Done-stuff-data-to-FHIR-standard:
-        name: Done stuff data to FHIR standard
+      Transform-data-to-FHIR-standard:
+        name: Transform data to FHIR standard
         adaptor: '@openfn/language-http@latest'
         # credential:
         # globals:
@@ -21,10 +21,7 @@ workflows:
         # globals:
         body: |
           fn(state => state);
-          fn(x => {
-            console.log("hi there!")
-            return x;
-          })
+          
       Notify-CHW-upload-successful:
         name: Notify CHW upload successful
         adaptor: '@openfn/language-http@latest'
@@ -46,13 +43,13 @@ workflows:
         type: webhook
         enabled: true
     edges:
-      webhook->Done-stuff-data-to-FHIR-standard:
+      webhook->Transform-data-to-FHIR-standard:
         source_trigger: webhook
-        target_job: Done-stuff-data-to-FHIR-standard
+        target_job: Transform-data-to-FHIR-standard
         condition_type: always
         enabled: true
-      Done-stuff-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Done-stuff-data-to-FHIR-standard
+      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
+        source_job: Transform-data-to-FHIR-standard
         target_job: Send-to-OpenHIM-to-route-to-SHR
         condition_type: on_job_success
         enabled: true

@@ -1,65 +1,74 @@
-name: openhie-project
+name: t3-demo
 # description:
 # credentials:
 # globals:
 workflows:
-  OpenHIE-Workflow:
-    name: OpenHIE Workflow
+  Sample-Workflow:
+    name: Sample Workflow
     jobs:
-      Transform-data-to-FHIR-standard:
-        name: Transform data to FHIR standard
-        adaptor: '@openfn/language-http@latest'
+      Job-1---Check-if-age-is-over-18-months:
+        name: Job 1 - Check if age is over 18 months
+        adaptor: '@openfn/language-common@latest'
         # credential:
         # globals:
         body: |
-          fn(state => state);
+            fn(state => {
+              if (state.data.age_in_months > 18) {
+                console.log('Eligible for program.');
+                return state;
+              }
+              else { throw 'Error, patient ineligible.' }
+            });
           
-      Send-to-OpenHIM-to-route-to-SHR:
-        name: Send to OpenHIM to route to SHR
-        adaptor: '@openfn/language-http@latest'
+      Job-2---Convert-data-to-DHIS2-format:
+        name: Job 2 - Convert data to DHIS2 format
+        adaptor: '@openfn/language-common@latest'
         # credential:
         # globals:
         body: |
-          fn(state => state);
+            fn(state => {
+              const names = state.data.name.split(' ');
+              return { ...state, names };
+            });
           
-      Notify-CHW-upload-successful:
-        name: Notify CHW upload successful
-        adaptor: '@openfn/language-http@latest'
+      Job-3---Upload-to-DHIS2:
+        name: Job 3 - Upload to DHIS2
+        adaptor: '@openfn/language-dhis2@latest'
         # credential:
         # globals:
         body: |
-          fn(state => state);
-          
-      Notify-CHW-upload-failed:
-        name: Notify CHW upload failed
-        adaptor: '@openfn/language-http@latest'
-        # credential:
-        # globals:
-        body: |
-          fn(state => state);
+            create('trackedEntityInstances', {
+              trackedEntityType: 'nEenWmSyUEp', // a person
+              orgUnit: 'DiszpKrYNg8',
+              attributes: [
+                {
+                  attribute: 'w75KJ2mc4zz', // attribute id for first name
+                  value: state.names[0] // the first name from submission
+                },
+                {
+                  attribute: 'zDhUuAYrxNC', // attribute id for last name
+                  value: state.names[1] // the last name from submission
+                }
+              ]
+            });
           
     triggers:
       webhook:
         type: webhook
         enabled: true
     edges:
-      webhook->Transform-data-to-FHIR-standard:
+      webhook->Job-1---Check-if-age-is-over-18-months:
         source_trigger: webhook
-        target_job: Transform-data-to-FHIR-standard
-        condition_type: always
+        target_job: Job-1---Check-if-age-is-over-18-months
+        condition_type: nil
         enabled: true
-      Transform-data-to-FHIR-standard->Send-to-OpenHIM-to-route-to-SHR:
-        source_job: Transform-data-to-FHIR-standard
-        target_job: Send-to-OpenHIM-to-route-to-SHR
+      Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format:
+        source_job: Job-1---Check-if-age-is-over-18-months
+        target_job: Job-2---Convert-data-to-DHIS2-format
         condition_type: on_job_success
         enabled: true
-      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-successful:
-        source_job: Send-to-OpenHIM-to-route-to-SHR
-        target_job: Notify-CHW-upload-successful
+      Job-2---Convert-data-to-DHIS2-format->Job-3---Upload-to-DHIS2:
+        source_job: Job-2---Convert-data-to-DHIS2-format
+        target_job: Job-3---Upload-to-DHIS2
         condition_type: on_job_success
-        enabled: true
-      Send-to-OpenHIM-to-route-to-SHR->Notify-CHW-upload-failed:
-        source_job: Send-to-OpenHIM-to-route-to-SHR
-        target_job: Notify-CHW-upload-failed
-        condition_type: on_job_failure
         enabled: true

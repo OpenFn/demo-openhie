@@ -12,13 +12,13 @@ workflows:
         # credential:
         # globals:
         body: |
-            fn(state => {
-              if (state.data.age_in_months > 18) {
-                console.log('Eligible for program.');
-                return state;
-              }
-              else { throw 'Error, patient ineligible.' }
-            });
+          fn(state => {
+            if (state.data.age_in_months > 18) {
+              console.log('Eligible for program.');
+              return state;
+            }
+            else { throw 'Error, patient ineligible.' }
+          });
           
       Job-2---Convert-data-to-DHIS2-format:
         name: Job 2 - Convert data to DHIS2 format
@@ -26,10 +26,10 @@ workflows:
         # credential:
         # globals:
         body: |
-            fn(state => {
-              const names = state.data.name.split(' ');
-              return { ...state, names };
-            });
+          fn(state => {
+            const names = state.data.name.split(' ');
+            return { ...state, names };
+          });
           
       Job-3---Upload-to-DHIS2:
         name: Job 3 - Upload to DHIS2
@@ -37,20 +37,20 @@ workflows:
         # credential:
         # globals:
         body: |
-            create('trackedEntityInstances', {
-              trackedEntityType: 'nEenWmSyUEp', // a person
-              orgUnit: 'DiszpKrYNg8',
-              attributes: [
-                {
-                  attribute: 'w75KJ2mc4zz', // attribute id for first name
-                  value: state.names[0] // the first name from submission
-                },
-                {
-                  attribute: 'zDhUuAYrxNC', // attribute id for last name
-                  value: state.names[1] // the last name from submission
-                }
-              ]
-            });
+          create('trackedEntityInstances', {
+            trackedEntityType: 'nEenWmSyUEp', // a person
+            orgUnit: 'DiszpKrYNg8',
+            attributes: [
+              {
+                attribute: 'w75KJ2mc4zz', // attribute id for first name
+                value: state.names[0] // the first name from submission
+              },
+              {
+                attribute: 'zDhUuAYrxNC', // attribute id for last name
+                value: state.names[1] // the last name from submission
+              }
+            ]
+          });
           
     triggers:
       webhook:

@@ -14,7 +14,7 @@
       "id": "1a1175db-1962-47de-a7a9-52a36b2a4c85",
       "name": "Sample Workflow",
       "inserted_at": "2024-03-29T08:37:53",
-      "updated_at": "2024-03-29T08:37:53",
+      "updated_at": "2024-03-29T08:59:51",
       "project_id": "e09231d6-869f-4ecf-b163-e42a07849f0b",
       "deleted_at": null,
       "triggers": {
@@ -45,12 +45,6 @@
         }
       },
       "edges": {
-        "webhook->Job-1---Check-if-age-is-over-18-months": {
-          "enabled": true,
-          "id": "2bf11e33-3b0e-4ef9-826f-55bf3c499b7b",
-          "source_trigger_id": "54596b0c-2ae6-4ada-9eae-c4166358bfa8",
-          "target_job_id": "13bae4ca-cabc-4a1f-8603-3dbdba8835e6"
-        },
         "Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format": {
           "enabled": true,
           "id": "891a67c3-36f7-42ed-999e-58c938a7e194",
@@ -64,6 +58,15 @@
           "source_job_id": "eb9fadd1-de3c-4cfe-8f76-277f8d3ae388",
           "condition_type": "on_job_success",
           "target_job_id": "9c3bfbc0-71e7-49da-bca1-9c307ffc3c7b"
+        },
+        "webhook->Job-1---Check-if-age-is-over-18-months": {
+          "enabled": true,
+          "id": "2bf11e33-3b0e-4ef9-826f-55bf3c499b7b",
+          "source_trigger_id": "54596b0c-2ae6-4ada-9eae-c4166358bfa8",
+          "condition_type": "js_expression",
+          "condition_expression": "true",
+          "condition_label": "any",
+          "target_job_id": "13bae4ca-cabc-4a1f-8603-3dbdba8835e6"
         }
       }
     }

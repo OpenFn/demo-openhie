@@ -57,11 +57,6 @@ workflows:
         type: webhook
         enabled: true
     edges:
-      webhook->Job-1---Check-if-age-is-over-18-months:
-        source_trigger: webhook
-        target_job: Job-1---Check-if-age-is-over-18-months
-        condition_type: nil
-        enabled: true
       Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format:
         source_job: Job-1---Check-if-age-is-over-18-months
         target_job: Job-2---Convert-data-to-DHIS2-format
@@ -71,4 +66,11 @@ workflows:
         source_job: Job-2---Convert-data-to-DHIS2-format
         target_job: Job-3---Upload-to-DHIS2
         condition_type: on_job_success
+        enabled: true
+      webhook->Job-1---Check-if-age-is-over-18-months:
+        source_trigger: webhook
+        target_job: Job-1---Check-if-age-is-over-18-months
+        condition_type: js_expression
+        condition_label: any
+        condition_expression: true
         enabled: true

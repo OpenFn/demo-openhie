@@ -1,0 +1,161 @@
+name: stephen-scale
+description: this project is on the scale plan, and should have access to other features
+# credentials:
+# globals:
+workflows:
+  Test-Alerts:
+    name: Test Alerts
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          crash()
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  Test-Unstacking-:
+    name: Test Unstacking 
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          get('https://jsonplaceholder.typicode.com/posts', {
+            query: {foo: 'bar', a: 1},
+            headers: {'content-type': 'application/json'},
+          })
+      hhttt:
+        name: hhttt
+        adaptor: '@openfn/language-http@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          
+          fn(state => {
+            return {big: [state, state, state, state, state]};
+          })
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+      New-job->hhttt:
+        source_job: New-job
+        target_job: hhttt
+        condition_type: on_job_success
+        enabled: true
+  long-runs-on-scale:
+    name: long runs on scale
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          fn(state => {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                console.log('wait, and then resolve');
+                resolve(state);
+              // Note that this is in milliseconds 
+              }, 10 * 60 * 1000);
+            });
+          });
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  sf-test:
+    name: sf-test
+    jobs:
+      test-oauth:
+        name: test oauth
+        adaptor: '@openfn/language-salesforce@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          describeAll()
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->test-oauth:
+        source_trigger: webhook
+        target_job: test-oauth
+        condition_type: always
+        enabled: true
+  test-big-input:
+    name: test-big-input
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          fn(state => {
+            console.log('data :: ', JSON.stringify(state.results,null,2));
+            return state; 
+          })
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  test-oauth-wa:
+    name: test oauth wa
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-salesforce@latest'
+        # credential:
+        # globals:
+        body: |
+          // Get started by adding operations from the API reference
+          describeAll(); 
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true

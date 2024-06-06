@@ -1,0 +1,225 @@
+{
+  "id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+  "name": "stephen-scale",
+  "description": "this project is on the scale plan, and should have access to other features",
+  "inserted_at": "2024-05-13T10:13:34",
+  "updated_at": "2024-05-17T10:29:54",
+  "scheduled_deletion": null,
+  "dataclip_retention_period": null,
+  "history_retention_period": null,
+  "requires_mfa": false,
+  "retention_policy": "retain_all",
+  "workflows": {
+    "Test-Alerts": {
+      "id": "27f64918-01f3-4609-8b9f-ec92d6f33c80",
+      "name": "Test Alerts",
+      "inserted_at": "2024-05-13T10:29:30Z",
+      "updated_at": "2024-05-13T10:29:30Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "6d0e8862-3c59-44c9-9dc9-717e27961747",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "ae9b076c-39a4-442f-bf25-c2ed7be8cc23",
+          "name": "New job",
+          "body": "// Get started by adding operations from the API reference\ncrash()",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "d405ed2b-de4e-474b-b14c-e0bff664cc80",
+          "source_trigger_id": "6d0e8862-3c59-44c9-9dc9-717e27961747",
+          "condition_type": "always",
+          "target_job_id": "ae9b076c-39a4-442f-bf25-c2ed7be8cc23"
+        }
+      }
+    },
+    "long-runs-on-scale": {
+      "id": "84697eaf-4984-43c7-9b61-646dae3abaa0",
+      "name": "long runs on scale",
+      "inserted_at": "2024-05-13T11:01:01Z",
+      "updated_at": "2024-05-13T11:03:38Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 2,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "f54585af-6d60-4cb3-a24b-f4433626c05d",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "5978ae7a-0360-4650-9fe4-15f5deec228d",
+          "name": "New job",
+          "body": "// Get started by adding operations from the API reference\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 10 * 60 * 1000);\n  });\n});",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "f69a9b1b-8c9b-4da9-be13-52bc4e4706a9",
+          "source_trigger_id": "f54585af-6d60-4cb3-a24b-f4433626c05d",
+          "condition_type": "always",
+          "target_job_id": "5978ae7a-0360-4650-9fe4-15f5deec228d"
+        }
+      }
+    },
+    "Test-Unstacking-": {
+      "id": "e85c52d2-21dc-496b-bdc0-9a811e4039be",
+      "name": "Test Unstacking ",
+      "inserted_at": "2024-05-16T12:44:47Z",
+      "updated_at": "2024-05-17T14:47:46Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 6,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "d26bfc9a-0ed2-48b2-91b2-c37961b413f6",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "8194c47c-9ea7-4190-a5b7-26455e17d442",
+          "name": "New job",
+          "body": "// Get started by adding operations from the API reference\nget('https://jsonplaceholder.typicode.com/posts', {\n  query: {foo: 'bar', a: 1},\n  headers: {'content-type': 'application/json'},\n})",
+          "adaptor": "@openfn/language-http@latest"
+        },
+        "hhttt": {
+          "id": "4b8d732e-b821-40a9-a424-6794994d7e51",
+          "name": "hhttt",
+          "body": "// Get started by adding operations from the API reference\n\nfn(state => {\n  return {big: [state, state, state, state, state]};\n})",
+          "adaptor": "@openfn/language-http@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "ab932949-81c3-4c02-b94e-a5a9bc98f50d",
+          "source_trigger_id": "d26bfc9a-0ed2-48b2-91b2-c37961b413f6",
+          "condition_type": "always",
+          "target_job_id": "8194c47c-9ea7-4190-a5b7-26455e17d442"
+        },
+        "New-job->hhttt": {
+          "enabled": true,
+          "id": "9b8a4dbc-debc-40da-93d9-6e198b29861b",
+          "source_job_id": "8194c47c-9ea7-4190-a5b7-26455e17d442",
+          "condition_type": "on_job_success",
+          "target_job_id": "4b8d732e-b821-40a9-a424-6794994d7e51"
+        }
+      }
+    },
+    "test-oauth-wa": {
+      "id": "916818b1-cd81-4ea3-bb25-d8b47e1afddb",
+      "name": "test oauth wa",
+      "inserted_at": "2024-05-17T09:06:24Z",
+      "updated_at": "2024-05-20T13:38:18Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 7,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "ff76cbe6-d1a9-434d-8277-7d31d1b8b528",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "16e14597-2e0a-44aa-aefa-9b4a2736c994",
+          "name": "New job",
+          "body": "// Get started by adding operations from the API reference\ndescribeAll(); ",
+          "adaptor": "@openfn/language-salesforce@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "9d8f25a2-8234-42ff-8be1-a78e0e6b6d52",
+          "source_trigger_id": "ff76cbe6-d1a9-434d-8277-7d31d1b8b528",
+          "condition_type": "always",
+          "target_job_id": "16e14597-2e0a-44aa-aefa-9b4a2736c994"
+        }
+      }
+    },
+    "sf-test": {
+      "id": "7606979b-31c5-454b-8589-1124c4f32b2c",
+      "name": "sf-test",
+      "inserted_at": "2024-05-17T10:31:46Z",
+      "updated_at": "2024-05-20T13:37:24Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 6,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "df566fe8-04b4-4b9d-8b81-bb26d4637bb1",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "test-oauth": {
+          "id": "f91ca5cd-f2fe-4cff-9dca-e49b520f273b",
+          "name": "test oauth",
+          "body": "// Get started by adding operations from the API reference\ndescribeAll()",
+          "adaptor": "@openfn/language-salesforce@latest"
+        }
+      },
+      "edges": {
+        "webhook->test-oauth": {
+          "enabled": true,
+          "id": "9a7e31c8-d9f9-460e-8a2f-af7e40f8a5ab",
+          "source_trigger_id": "df566fe8-04b4-4b9d-8b81-bb26d4637bb1",
+          "condition_type": "always",
+          "target_job_id": "f91ca5cd-f2fe-4cff-9dca-e49b520f273b"
+        }
+      }
+    },
+    "test-big-input": {
+      "id": "32691d64-31d7-4c59-86d6-4c063b64483a",
+      "name": "test-big-input",
+      "inserted_at": "2024-05-18T20:18:35Z",
+      "updated_at": "2024-05-18T20:18:35Z",
+      "project_id": "522ecf61-2d2e-4fe2-9aa6-99db88791736",
+      "deleted_at": null,
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "404b00fb-f22c-436f-9ca6-726925fe71ec",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "5c5bb9cd-e529-411f-96f8-0132b8b8d42f",
+          "name": "New job",
+          "body": "// Get started by adding operations from the API reference\nfn(state => {\n  console.log('data :: ', JSON.stringify(state.results,null,2));\n  return state; \n})",
+          "adaptor": "@openfn/language-common@latest"
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "ee57d2cb-9bce-4f68-947e-6caaf918e46f",
+          "source_trigger_id": "404b00fb-f22c-436f-9ca6-726925fe71ec",
+          "condition_type": "always",
+          "target_job_id": "5c5bb9cd-e529-411f-96f8-0132b8b8d42f"
+        }
+      }
+    }
+  }
+}

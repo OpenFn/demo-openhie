@@ -1,0 +1,5 @@
+{
+  "endpoint": "http://localhost:4000",
+  "specPath": "openfn-90ad424e-5d9f-4403-9c26-a1d7c5d2b305-spec.yaml",
+  "statePath": "openfn-90ad424e-5d9f-4403-9c26-a1d7c5d2b305-state.json"
+}

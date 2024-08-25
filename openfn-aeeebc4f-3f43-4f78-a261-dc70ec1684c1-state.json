@@ -1,0 +1,188 @@
+{
+  "id": "aeeebc4f-3f43-4f78-a261-dc70ec1684c1",
+  "name": "ayodele-demo",
+  "description": null,
+  "inserted_at": "2024-06-07T07:13:21Z",
+  "updated_at": "2024-06-07T07:13:21Z",
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
+  "project_credentials": {
+    "ayodele+arc@openfn.org-DHIS2-play": {
+      "id": "573af0ce-d785-4794-83f6-3e3dc7ae7e75",
+      "name": "DHIS2 play",
+      "owner": "ayodele+arc@openfn.org"
+    }
+  },
+  "workflows": {
+    "Sample-Workflow": {
+      "id": "c8a97736-fc3f-4cba-9ba7-1a17f8760efe",
+      "name": "Sample Workflow",
+      "inserted_at": "2024-07-22T10:28:38.314536Z",
+      "workflow_id": "c8a97736-fc3f-4cba-9ba7-1a17f8760efe",
+      "lock_version": 9,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "9778b7dc-af9c-4e88-b95a-aad7631c3c75",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Job-1---Check-if-age-is-over-18-months": {
+          "id": "b6d23a40-5004-4e03-9cf2-b80118e580aa",
+          "name": "Job 1 - Check if age is over 18 months",
+          "body": "  fn(state => {\n      console.log(state.data);\n      return state;\n    });\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Job-2---Convert-data-to-DHIS2-format": {
+          "id": "ebfef476-fdb0-4006-8c28-8e48f7468a51",
+          "name": "Job 2 - Convert data to DHIS2 format",
+          "body": "  fn(state => {\n    const names = state.data.name.split(' ');\n    return { ...state, names };\n  });\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Yiii": {
+          "id": "11ae4702-1dc7-4166-a855-666c69ce2b53",
+          "name": "Yiii",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Job-1---Check-if-age-is-over-18-months": {
+          "enabled": true,
+          "id": "b5f5a8fa-8d29-4a86-b13f-f5c598245b84",
+          "source_trigger_id": "9778b7dc-af9c-4e88-b95a-aad7631c3c75",
+          "condition_type": "always",
+          "target_job_id": "b6d23a40-5004-4e03-9cf2-b80118e580aa"
+        },
+        "Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format": {
+          "enabled": true,
+          "id": "b3cf7dbf-c24b-4aab-a0d7-a0150f905f76",
+          "source_job_id": "b6d23a40-5004-4e03-9cf2-b80118e580aa",
+          "condition_type": "on_job_success",
+          "target_job_id": "ebfef476-fdb0-4006-8c28-8e48f7468a51"
+        },
+        "Job-2---Convert-data-to-DHIS2-format->Yiii": {
+          "enabled": true,
+          "id": "58bf1605-8674-47cc-b156-70103ca8c41b",
+          "source_job_id": "ebfef476-fdb0-4006-8c28-8e48f7468a51",
+          "condition_type": "on_job_success",
+          "target_job_id": "11ae4702-1dc7-4166-a855-666c69ce2b53"
+        }
+      }
+    },
+    "Kafka-Connect": {
+      "id": "304ad97b-3f4f-45ba-a302-56f3cbf7ebba",
+      "name": "Kafka Connect",
+      "inserted_at": "2024-07-22T10:53:45.137201Z",
+      "workflow_id": "304ad97b-3f4f-45ba-a302-56f3cbf7ebba",
+      "lock_version": 7,
+      "triggers": {
+        "kafka": {
+          "enabled": false,
+          "id": "61d8dec7-2af2-4cc8-8cb7-5d70725f900f",
+          "type": "kafka"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "962941b4-8c76-4751-8313-9d9c2a5d447b",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state => {\n  return (state)\n})",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "kafka->New-job": {
+          "enabled": true,
+          "id": "2702e66d-e9e6-45a3-8d50-38fa130d461e",
+          "source_trigger_id": "61d8dec7-2af2-4cc8-8cb7-5d70725f900f",
+          "condition_type": "always",
+          "target_job_id": "962941b4-8c76-4751-8313-9d9c2a5d447b"
+        }
+      }
+    },
+    "OpenSPP-Demo": {
+      "id": "5939037b-3116-4de9-9fb2-2bcb9358abd0",
+      "name": "OpenSPP Demo",
+      "inserted_at": "2024-07-25T07:48:08.429152Z",
+      "workflow_id": "5939037b-3116-4de9-9fb2-2bcb9358abd0",
+      "lock_version": 6,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "995c644e-75f2-49ba-ab65-0e98d5c0a3f6",
+          "type": "cron",
+          "cron_expression": "00 00 01 * *"
+        }
+      },
+      "jobs": {
+        "Fetch-all-submissions-from-Kobotoolbox": {
+          "id": "2b896361-df59-4a43-8945-0b83f0e2ffbd",
+          "name": "Fetch all submissions from Kobotoolbox",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-kobotoolbox@latest",
+          "project_credential_id": null
+        },
+        "Validate-and-Map-Data": {
+          "id": "c63f71c6-2c73-49c7-9b5d-ac368f0af5b6",
+          "name": "Validate and Map Data",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Send-data-to-OpenSPP": {
+          "id": "37ea8f6c-b022-435a-a09d-734fe3c9156d",
+          "name": "Send data to OpenSPP",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openspp@latest",
+          "project_credential_id": null
+        },
+        "Send-text-message-to-all-beneficiaries": {
+          "id": "60d725f7-c460-4790-8a0a-ed7b2a58b8a2",
+          "name": "Send text message to all beneficiaries",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-twilio@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->Fetch-all-submissions-from-Kobotoolbox": {
+          "enabled": true,
+          "id": "75a65c94-8dc9-49e7-b6c9-96ed39745001",
+          "source_trigger_id": "995c644e-75f2-49ba-ab65-0e98d5c0a3f6",
+          "condition_type": "always",
+          "target_job_id": "2b896361-df59-4a43-8945-0b83f0e2ffbd"
+        },
+        "Fetch-all-submissions-from-Kobotoolbox->Validate-and-Map-Data": {
+          "enabled": true,
+          "id": "d14536c8-b952-45a8-ba04-c1551fc5e835",
+          "source_job_id": "2b896361-df59-4a43-8945-0b83f0e2ffbd",
+          "condition_type": "on_job_success",
+          "target_job_id": "c63f71c6-2c73-49c7-9b5d-ac368f0af5b6"
+        },
+        "Validate-and-Map-Data->Send-data-to-OpenSPP": {
+          "enabled": true,
+          "id": "bcff61d5-5e57-4595-8b6a-610d407b408a",
+          "source_job_id": "c63f71c6-2c73-49c7-9b5d-ac368f0af5b6",
+          "condition_type": "on_job_success",
+          "target_job_id": "37ea8f6c-b022-435a-a09d-734fe3c9156d"
+        },
+        "Validate-and-Map-Data->Send-text-message-to-all-beneficiaries": {
+          "enabled": true,
+          "id": "72c912af-f2a9-470b-810c-991fd2c25f14",
+          "source_job_id": "c63f71c6-2c73-49c7-9b5d-ac368f0af5b6",
+          "condition_type": "on_job_success",
+          "target_job_id": "60d725f7-c460-4790-8a0a-ed7b2a58b8a2"
+        }
+      }
+    }
+  },
+  "requires_mfa": false
+}

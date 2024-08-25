@@ -1,0 +1,149 @@
+name: ayodele-demo
+description: null
+credentials:
+  ayodele+arc@openfn.org-DHIS2-play:
+    name: DHIS2 play
+    owner: ayodele+arc@openfn.org
+workflows:
+  Kafka-Connect:
+    name: Kafka Connect
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+          fn(state => {
+            return (state)
+          })
+    triggers:
+      kafka:
+        type: kafka
+        enabled: false
+    edges:
+      kafka->New-job:
+        source_trigger: kafka
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  OpenSPP-Demo:
+    name: OpenSPP Demo
+    jobs:
+      Fetch-all-submissions-from-Kobotoolbox:
+        name: Fetch all submissions from Kobotoolbox
+        adaptor: '@openfn/language-kobotoolbox@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Validate-and-Map-Data:
+        name: Validate and Map Data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Send-data-to-OpenSPP:
+        name: Send data to OpenSPP
+        adaptor: '@openfn/language-openspp@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Send-text-message-to-all-beneficiaries:
+        name: Send text message to all beneficiaries
+        adaptor: '@openfn/language-twilio@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '00 00 01 * *'
+        enabled: true
+    edges:
+      cron->Fetch-all-submissions-from-Kobotoolbox:
+        source_trigger: cron
+        target_job: Fetch-all-submissions-from-Kobotoolbox
+        condition_type: always
+        enabled: true
+      Fetch-all-submissions-from-Kobotoolbox->Validate-and-Map-Data:
+        source_job: Fetch-all-submissions-from-Kobotoolbox
+        target_job: Validate-and-Map-Data
+        condition_type: on_job_success
+        enabled: true
+      Validate-and-Map-Data->Send-data-to-OpenSPP:
+        source_job: Validate-and-Map-Data
+        target_job: Send-data-to-OpenSPP
+        condition_type: on_job_success
+        enabled: true
+      Validate-and-Map-Data->Send-text-message-to-all-beneficiaries:
+        source_job: Validate-and-Map-Data
+        target_job: Send-text-message-to-all-beneficiaries
+        condition_type: on_job_success
+        enabled: true
+  Sample-Workflow:
+    name: Sample Workflow
+    jobs:
+      Job-1---Check-if-age-is-over-18-months:
+        name: Job 1 - Check if age is over 18 months
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          fn(state => {
+              console.log(state.data);
+              return state;
+            });
+
+      Job-2---Convert-data-to-DHIS2-format:
+        name: Job 2 - Convert data to DHIS2 format
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          fn(state => {
+            const names = state.data.name.split(' ');
+            return { ...state, names };
+          });
+
+      Yiii:
+        name: Yiii
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Job-1---Check-if-age-is-over-18-months:
+        source_trigger: webhook
+        target_job: Job-1---Check-if-age-is-over-18-months
+        condition_type: always
+        enabled: true
+      Job-1---Check-if-age-is-over-18-months->Job-2---Convert-data-to-DHIS2-format:
+        source_job: Job-1---Check-if-age-is-over-18-months
+        target_job: Job-2---Convert-data-to-DHIS2-format
+        condition_type: on_job_success
+        enabled: true
+      Job-2---Convert-data-to-DHIS2-format->Yiii:
+        source_job: Job-2---Convert-data-to-DHIS2-format
+        target_job: Yiii
+        condition_type: on_job_success
+        enabled: true

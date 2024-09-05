@@ -1,0 +1,754 @@
+name: ayodele-arena
+description: null
+credentials:
+  ayodele@openfn.org-New-one-:
+    name: New one
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-UNDP-Database:
+    name: UNDP Database
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-Use-this:
+    name: Use this
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-YOOOOOOOO:
+    name: YOOOOOOOO
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-YOooo:
+    name: YOooo
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-orgLocal_test:
+    name: orgLocal_test
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-slash-credential:
+    name: slash credential
+    owner: ayodele@openfn.org
+  elias@openfn.org-WFWI-Sandbox-Credential-For-Elias:
+    name: WFWI Sandbox Credential For Elias
+    owner: elias@openfn.org
+workflows:
+  Acumen:
+    name: Acumen
+    jobs:
+      Get-Data-from-GoogleSheets:
+        name: Get Data from GoogleSheets
+        adaptor: '@openfn/language-googlesheets@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          //versionz=oore
+      Clean-and-Map-data:
+        name: Clean and Map data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Cosmo:
+        name: Cosmo
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          fn(x => x)
+      Do-this:
+        name: Do this
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          // Get started by adding operations from the API reference
+          fn(state => {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                console.log('wait, and then resolve');
+                resolve(state);
+              // Note that this is in milliseconds 
+              }, 5 * 1000);
+            });
+          });
+
+      yoooio:
+        name: yoooio
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Get-Data-from-GoogleSheets:
+        source_trigger: webhook
+        target_job: Get-Data-from-GoogleSheets
+        condition_type: always
+        enabled: true
+      Clean-and-Map-data->Cosmo:
+        source_job: Clean-and-Map-data
+        target_job: Cosmo
+        condition_type: on_job_failure
+        enabled: true
+      Get-Data-from-GoogleSheets->Do-this:
+        source_job: Get-Data-from-GoogleSheets
+        target_job: Do-this
+        condition_type: on_job_success
+        enabled: true
+      Get-Data-from-GoogleSheets->Clean-and-Map-data:
+        source_job: Get-Data-from-GoogleSheets
+        target_job: Clean-and-Map-data
+        condition_type: js_expression
+        condition_label: Always true
+        condition_expression: true
+        enabled: true
+      Do-this->yoooio:
+        source_job: Do-this
+        target_job: yoooio
+        condition_type: on_job_success
+        enabled: true
+  Configurable-Concurrency-Demo-:
+    name: Configurable Concurrency Demo
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  Create-YouTrack-Issues-via-API:
+    name: Create YouTrack Issues via API
+    jobs:
+      Validate-and-map:
+        name: Validate and map
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          //nothing is here for now
+      Create-an-issue-on-YouTrack2:
+        name: Create an issue on YouTrack2
+        adaptor: '@openfn/language-salesforce@2.1.0'
+        credential: null
+        body: |
+          // Get started by adding operations from the API reference
+
+          state.title = "let's try something new"
+
+          fn(state => {
+             return state
+          })
+
+          post('https://ayodeleatopenfn.youtrack.cloud/api/issues', {
+             body: {
+             "project":{"id":"0-1"},
+             "summary":`BCG Vaccination for patient ${state.request.path[1]} `,
+             "description":` ${state.data.first_name} ${state.data.last_name} is offline call them on ${state.data.phone}`
+             },
+             headers: {
+              'content-type': 'application/json',
+              'Authorization': 'Bearer perm:YWRtaW4=.NTEtMA==.H9fcd63wHDk4bKz7WgWWDUkxBDJAac'
+              },
+           })
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Validate-and-map:
+        source_trigger: webhook
+        target_job: Validate-and-map
+        condition_type: always
+        enabled: true
+      Validate-and-map->Create-an-issue-on-YouTrack2:
+        source_job: Validate-and-map
+        target_job: Create-an-issue-on-YouTrack2
+        condition_type: on_job_success
+        enabled: true
+  Make-it-work:
+    name: Make it work
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  New-one-for-test:
+    name: New one for test
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  Old:
+    name: Old
+    jobs:
+      Anot-GOog:
+        name: Anot GOog
+        adaptor: '@openfn/language-googlesheets@latest'
+        credential: null
+        body: |
+          // Get started by adding operations from the API reference
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Anot-GOog:
+        source_trigger: webhook
+        target_job: Anot-GOog
+        condition_type: always
+        enabled: true
+  OpenSPP:
+    name: OpenSPP
+    jobs:
+      Fetch-all-submissions-from-Kobotoolbox:
+        name: Fetch all submissions from Kobotoolbox
+        adaptor: '@openfn/language-kobotoolbox@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Validate-and-map-data:
+        name: Validate and map data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Send-data-to-OpenSPP:
+        name: Send data to OpenSPP
+        adaptor: '@openfn/language-openspp@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '00 00 01 * *'
+        enabled: true
+    edges:
+      cron->Fetch-all-submissions-from-Kobotoolbox:
+        source_trigger: cron
+        target_job: Fetch-all-submissions-from-Kobotoolbox
+        condition_type: always
+        enabled: true
+      Fetch-all-submissions-from-Kobotoolbox->Validate-and-map-data:
+        source_job: Fetch-all-submissions-from-Kobotoolbox
+        target_job: Validate-and-map-data
+        condition_type: on_job_success
+        enabled: true
+      Validate-and-map-data->Send-data-to-OpenSPP:
+        source_job: Validate-and-map-data
+        target_job: Send-data-to-OpenSPP
+        condition_type: on_job_success
+        enabled: true
+  Sanjay-Demo:
+    name: Sanjay Demo
+    jobs:
+      Fetch-Data-from-CommCare:
+        name: Fetch Data from CommCare
+        adaptor: '@openfn/language-commcare@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Clean-and-aggregate-data:
+        name: Clean and aggregate data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+          combine(
+            create('foo'),
+            delete('bar')
+          )
+      Move-data-to-DHIS2:
+        name: Move data to DHIS2
+        adaptor: '@openfn/language-dhis2@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '00 08 01 * *'
+        enabled: true
+    edges:
+      cron->Fetch-Data-from-CommCare:
+        source_trigger: cron
+        target_job: Fetch-Data-from-CommCare
+        condition_type: always
+        enabled: true
+      Fetch-Data-from-CommCare->Clean-and-aggregate-data:
+        source_job: Fetch-Data-from-CommCare
+        target_job: Clean-and-aggregate-data
+        condition_type: on_job_success
+        enabled: true
+      Clean-and-aggregate-data->Move-data-to-DHIS2:
+        source_job: Clean-and-aggregate-data
+        target_job: Move-data-to-DHIS2
+        condition_type: on_job_success
+        enabled: true
+  Stress-testing-branches-:
+    name: Stress testing branches
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+          console.log('Do Something and this')
+          console.log(state.data)
+      try-again:
+        name: try again
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+      New-job->try-again:
+        source_job: New-job
+        target_job: try-again
+        condition_type: on_job_success
+        enabled: true
+  Test:
+    name: Test
+    jobs:
+      test-Job:
+        name: test Job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Get started by adding operations from the API reference
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->test-Job:
+        source_trigger: webhook
+        target_job: test-Job
+        condition_type: always
+        enabled: true
+  Test-WFWI-Sandbox:
+    name: Test WFWI Sandbox
+    jobs:
+      Salesy:
+        name: Salesy
+        adaptor: '@openfn/language-salesforce@latest'
+        credential: ayodele@openfn.org-slash-credential
+        body: |
+          // Get started by adding operations from the API reference
+          describeAll()
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Salesy:
+        source_trigger: webhook
+        target_job: Salesy
+        condition_type: always
+        enabled: true
+  Test-with-UNDP:
+    name: Test with UNDP
+    jobs:
+      Validate-submission:
+        name: Validate submission
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Get started by adding operations from the API reference
+
+      Send-data-to-mysql-db:
+        name: Send data to mysql db
+        adaptor: '@openfn/language-mysql@latest'
+        credential: null
+        body: |
+          // Get started by adding operations from the API reference
+          fn(state => {
+            return {...state, "country":"Nigeria"}
+          })
+
+
+          // upsertMany(
+          //   'users', // the DB table
+          //   [
+          //     { name: 'one', email: 'one@openfn.org' },
+          //     { name: 'two', email: 'two@openfn.org' },
+          //   ]
+          // )
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Validate-submission:
+        source_trigger: webhook
+        target_job: Validate-submission
+        condition_type: always
+        enabled: true
+      Validate-submission->Send-data-to-mysql-db:
+        source_job: Validate-submission
+        target_job: Send-data-to-mysql-db
+        condition_type: on_job_success
+        enabled: true
+  Testing-Google-Sheets:
+    name: Testing Google Sheets
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+  Timeout:
+    name: Timeout
+    jobs:
+      New-hsjss:
+        name: New hsjss
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+          fn(state => {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                console.log('wait, and then resolve');
+                resolve(state);
+              // Note that this is in milliseconds 
+              }, 10 * 60 * 1000);
+            });
+          });
+      hbjj:
+        name: hbjj
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      hjvj:
+        name: hjvj
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      bj:
+        name: bj
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      bkkj:
+        name: bkkj
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      nkn:
+        name: nkn
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->New-hsjss:
+        source_trigger: webhook
+        target_job: New-hsjss
+        condition_type: always
+        enabled: true
+      New-hsjss->hbjj:
+        source_job: New-hsjss
+        target_job: hbjj
+        condition_type: on_job_success
+        enabled: true
+      New-hsjss->hjvj:
+        source_job: New-hsjss
+        target_job: hjvj
+        condition_type: on_job_success
+        enabled: true
+      New-hsjss->bj:
+        source_job: New-hsjss
+        target_job: bj
+        condition_type: on_job_success
+        enabled: true
+      hbjj->bkkj:
+        source_job: hbjj
+        target_job: bkkj
+        condition_type: on_job_success
+        enabled: true
+      bkkj->nkn:
+        source_job: bkkj
+        target_job: nkn
+        condition_type: on_job_success
+        enabled: true
+  Yoooo:
+    name: Yoooo
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Add-new-one:
+        name: Add new one
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
+      New-job->Add-new-one:
+        source_job: New-job
+        target_job: Add-new-one
+        condition_type: on_job_success
+        enabled: true
+  dalgo-comp:
+    name: dalgo-comp
+    jobs:
+      Goog:
+        name: Goog
+        adaptor: '@openfn/language-googlesheets@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+          // fn(state => {
+          //   getValues('1O-a4_RgPF_p8W3I6b5M9wobA3-CBW8hLClZfUik5sos','Sheet1!A1:E1')
+          // }
+          // )
+
+      compare-data-from-sheets:
+        name: compare data from sheets
+        adaptor: '@openfn/language-salesforce@4.6.5'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      This-is-a-new-test:
+        name: This is a new test
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      Another-one-1:
+        name: Another one 1
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      hhss:
+        name: hhss
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Use pure JavaScript to add operations to your
+          // step. Click Docs to see list of operations or visit
+          // https://bit.ly/OFNJWG for our job writing guide
+          // and example job codes.
+
+      mm:
+        name: mm
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Goog:
+        source_trigger: webhook
+        target_job: Goog
+        condition_type: always
+        enabled: true
+      Goog->compare-data-from-sheets:
+        source_job: Goog
+        target_job: compare-data-from-sheets
+        condition_type: on_job_success
+        enabled: true
+      compare-data-from-sheets->mm:
+        source_job: compare-data-from-sheets
+        target_job: mm
+        condition_type: on_job_success
+        enabled: true
+  kl:
+    name: kl
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true

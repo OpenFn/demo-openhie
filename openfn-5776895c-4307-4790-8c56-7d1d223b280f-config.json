@@ -1,0 +1,5 @@
+{
+  "endpoint": "https://app.staging.openfn.org",
+  "specPath": "openfn-5776895c-4307-4790-8c56-7d1d223b280f-spec.yaml",
+  "statePath": "openfn-5776895c-4307-4790-8c56-7d1d223b280f-state.json"
+}

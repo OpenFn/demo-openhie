@@ -4,48 +4,7 @@
   "description": null,
   "inserted_at": "2024-05-11T01:01:37Z",
   "updated_at": "2024-09-05T15:34:53Z",
-  "project_credentials": {
-    "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
-      "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
-      "name": "WFWI Sandbox Credential For Elias",
-      "owner": "elias@openfn.org"
-    },
-    "ayodele@openfn.org-Use-this": {
-      "id": "ed4d1c84-6a9b-4a0a-b55e-b962120702ca",
-      "name": "Use this",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-slash-credential": {
-      "id": "fc4d5e67-e128-48f2-a899-8ffb3a60c5c3",
-      "name": "slash credential",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-UNDP-Database": {
-      "id": "4986dc38-b8ba-46e3-b2b2-0c129a85e554",
-      "name": "UNDP Database",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-YOooo": {
-      "id": "770b3e1d-e2c7-4d69-a3dc-d9feb071a99e",
-      "name": "YOooo",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-YOOOOOOOO": {
-      "id": "e592bfb6-41aa-42fd-84ed-c0bd74de24f3",
-      "name": "YOOOOOOOO",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-orgLocal_test": {
-      "id": "61f9ae50-cd3f-4e1d-b2bd-10ac91731b03",
-      "name": "orgLocal_test",
-      "owner": "ayodele@openfn.org"
-    },
-    "ayodele@openfn.org-New-one-": {
-      "id": "ab5fde57-1003-44e0-9a45-f5c5b3d4eb59",
-      "name": "New one ",
-      "owner": "ayodele@openfn.org"
-    }
-  },
+  "project_credentials": null,
   "scheduled_deletion": null,
   "history_retention_period": null,
   "dataclip_retention_period": null,

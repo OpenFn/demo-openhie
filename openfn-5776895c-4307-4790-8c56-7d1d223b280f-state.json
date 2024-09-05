@@ -3,7 +3,7 @@
   "name": "ayodele-arena",
   "description": null,
   "inserted_at": "2024-05-11T01:01:37Z",
-  "updated_at": "2024-09-05T15:27:55Z",
+  "updated_at": "2024-09-05T15:34:53Z",
   "project_credentials": {
     "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
       "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
@@ -563,11 +563,11 @@
       },
       "concurrency": 3,
       "inserted_at": "2024-07-05T11:44:12Z",
-      "updated_at": "2024-09-05T15:27:55Z",
+      "updated_at": "2024-09-05T15:34:53Z",
       "jobs": {
         "Get-Data-from-GoogleSheets": {
           "id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
-          "name": "Get Data from GoogleSheet",
+          "name": "Get from GoogleSheet",
           "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//versionz=oore\n",
           "adaptor": "@openfn/language-googlesheets@latest",
           "project_credential_id": null
@@ -602,7 +602,7 @@
         }
       },
       "deleted_at": null,
-      "lock_version": 19,
+      "lock_version": 20,
       "triggers": {
         "webhook": {
           "enabled": true,

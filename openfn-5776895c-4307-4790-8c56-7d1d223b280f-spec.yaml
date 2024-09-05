@@ -30,7 +30,7 @@ workflows:
     name: Acumen
     jobs:
       Get-Data-from-GoogleSheets:
-        name: Get Data from GoogleSheets
+        name: Get Data from GoogleSheet
         adaptor: '@openfn/language-googlesheets@latest'
         credential: null
         body: |

@@ -27,7 +27,7 @@ credentials:
     owner: elias@openfn.org
 workflows:
   Acumen:
-    name: Acumen
+    name: Acumen Workflow
     jobs:
       Get-from-GoogleSheet:
         name: Get from GoogleSheet

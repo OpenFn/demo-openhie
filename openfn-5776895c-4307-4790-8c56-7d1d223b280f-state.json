@@ -4,10 +4,6 @@
   "description": null,
   "inserted_at": "2024-05-11T01:01:37Z",
   "updated_at": "2024-09-09T08:08:31Z",
-  "scheduled_deletion": null,
-  "history_retention_period": null,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "project_credentials": {
     "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
       "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
@@ -50,6 +46,11 @@
       "owner": "ayodele@openfn.org"
     }
   },
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
+  "requires_mfa": false,
   "workflows": {
     "Test-with-UNDP": {
       "id": "a76042e0-7ca9-43e6-9255-a9e7c6cbefbb",
@@ -801,6 +802,5 @@
         }
       }
     }
-  },
-  "requires_mfa": false
+  }
 }

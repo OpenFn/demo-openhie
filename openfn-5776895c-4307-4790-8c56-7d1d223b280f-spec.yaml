@@ -183,7 +183,7 @@ workflows:
         condition_type: on_job_success
         enabled: true
   Make-it-work:
-    name: Make it work
+    name: Make it work this time
     jobs:
       New-job:
         name: New job

@@ -1,11 +1,35 @@
 name: ayodele-arena
 description: null
-credentials: null
+credentials:
+  ayodele@openfn.org-New-one-:
+    name: New one
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-UNDP-Database:
+    name: UNDP Database
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-Use-this:
+    name: Use this
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-YOOOOOOOO:
+    name: YOOOOOOOO
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-YOooo:
+    name: YOooo
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-orgLocal_test:
+    name: orgLocal_test
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-slash-credential:
+    name: slash credential
+    owner: ayodele@openfn.org
+  elias@openfn.org-WFWI-Sandbox-Credential-For-Elias:
+    name: WFWI Sandbox Credential For Elias
+    owner: elias@openfn.org
 workflows:
   Acumen:
     name: Acumen
     jobs:
-      Get-Data-from-GoogleSheets:
+      Get-from-GoogleSheet:
         name: Get from GoogleSheet
         adaptor: '@openfn/language-googlesheets@latest'
         credential: null
@@ -14,6 +38,7 @@ workflows:
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           //versionz=oore
+
       Clean-and-Map-data:
         name: Clean and Map data
         adaptor: '@openfn/language-common@latest'
@@ -32,6 +57,7 @@ workflows:
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           fn(x => x)
+
       Do-this:
         name: Do this
         adaptor: '@openfn/language-common@latest'
@@ -65,9 +91,9 @@ workflows:
         type: webhook
         enabled: true
     edges:
-      webhook->Get-Data-from-GoogleSheets:
+      webhook->Get-from-GoogleSheet:
         source_trigger: webhook
-        target_job: Get-Data-from-GoogleSheets
+        target_job: Get-from-GoogleSheet
         condition_type: always
         enabled: true
       Clean-and-Map-data->Cosmo:
@@ -75,13 +101,13 @@ workflows:
         target_job: Cosmo
         condition_type: on_job_failure
         enabled: true
-      Get-Data-from-GoogleSheets->Do-this:
-        source_job: Get-Data-from-GoogleSheets
+      Get-from-GoogleSheet->Do-this:
+        source_job: Get-from-GoogleSheet
         target_job: Do-this
         condition_type: on_job_success
         enabled: true
-      Get-Data-from-GoogleSheets->Clean-and-Map-data:
-        source_job: Get-Data-from-GoogleSheets
+      Get-from-GoogleSheet->Clean-and-Map-data:
+        source_job: Get-from-GoogleSheet
         target_job: Clean-and-Map-data
         condition_type: js_expression
         condition_label: Always true
@@ -92,28 +118,6 @@ workflows:
         target_job: yoooio
         condition_type: on_job_success
         enabled: true
-  Configurable-Concurrency-Demo-:
-    name: Configurable Concurrency Demo
-    jobs:
-      New-job:
-        name: New job
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          
-          // Check out the Job Writing Guide for help getting started:
-          // https://docs.openfn.org/documentation/jobs/job-writing-guide
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->New-job:
-        source_trigger: webhook
-        target_job: New-job
-        condition_type: always
-        enabled: true
   Create-YouTrack-Issues-via-API:
     name: Create YouTrack Issues via API
     jobs:
@@ -123,6 +127,7 @@ workflows:
         credential: null
         body: |
           //nothing is here for now
+
       Create-an-issue-on-YouTrack2:
         name: Create an issue on YouTrack2
         adaptor: '@openfn/language-salesforce@2.1.0'
@@ -147,6 +152,7 @@ workflows:
               'Authorization': 'Bearer perm:YWRtaW4=.NTEtMA==.H9fcd63wHDk4bKz7WgWWDUkxBDJAac'
               },
            })
+
     triggers:
       webhook:
         type: webhook
@@ -302,6 +308,7 @@ workflows:
             create('foo'),
             delete('bar')
           )
+
       Move-data-to-DHIS2:
         name: Move data to DHIS2
         adaptor: '@openfn/language-dhis2@latest'
@@ -332,7 +339,7 @@ workflows:
         target_job: Move-data-to-DHIS2
         condition_type: on_job_success
         enabled: true
-  Stress-testing-branches-:
+  Stress-testing-branches:
     name: Stress testing branches
     jobs:
       New-job:
@@ -346,6 +353,7 @@ workflows:
           // and example job codes.
           console.log('Do Something and this')
           console.log(state.data)
+
       try-again:
         name: try again
         adaptor: '@openfn/language-common@latest'
@@ -401,6 +409,7 @@ workflows:
         body: |
           // Get started by adding operations from the API reference
           describeAll()
+
     triggers:
       webhook:
         type: webhook
@@ -414,8 +423,8 @@ workflows:
   Test-with-UNDP:
     name: Test with UNDP
     jobs:
-      Validate-submission:
-        name: Validate submission
+      Validate-submissions:
+        name: Validate submissions
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
@@ -439,18 +448,19 @@ workflows:
           //     { name: 'two', email: 'two@openfn.org' },
           //   ]
           // )
+
     triggers:
       webhook:
         type: webhook
-        enabled: false
+        enabled: true
     edges:
-      webhook->Validate-submission:
+      webhook->Validate-submissions:
         source_trigger: webhook
-        target_job: Validate-submission
+        target_job: Validate-submissions
         condition_type: always
         enabled: true
-      Validate-submission->Send-data-to-mysql-db:
-        source_job: Validate-submission
+      Validate-submissions->Send-data-to-mysql-db:
+        source_job: Validate-submissions
         target_job: Send-data-to-mysql-db
         condition_type: on_job_success
         enabled: true
@@ -498,6 +508,7 @@ workflows:
               }, 10 * 60 * 1000);
             });
           });
+
       hbjj:
         name: hbjj
         adaptor: '@openfn/language-common@latest'
@@ -647,36 +658,6 @@ workflows:
           // https://bit.ly/OFNJWG for our job writing guide
           // and example job codes.
 
-      This-is-a-new-test:
-        name: This is a new test
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      Another-one-1:
-        name: Another one 1
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      hhss:
-        name: hhss
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
       mm:
         name: mm
         adaptor: '@openfn/language-common@latest'
@@ -705,26 +686,4 @@ workflows:
         source_job: compare-data-from-sheets
         target_job: mm
         condition_type: on_job_success
-        enabled: true
-  kl:
-    name: kl
-    jobs:
-      New-job:
-        name: New job
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          
-          // Check out the Job Writing Guide for help getting started:
-          // https://docs.openfn.org/documentation/jobs/job-writing-guide
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->New-job:
-        source_trigger: webhook
-        target_job: New-job
-        condition_type: always
         enabled: true

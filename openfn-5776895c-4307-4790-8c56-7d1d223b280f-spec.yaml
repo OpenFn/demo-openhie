@@ -182,11 +182,20 @@ workflows:
         target_job: Create-an-issue-on-YouTrack2
         condition_type: on_job_success
         enabled: true
-  Make-it-work:
+  Make-it-work-this-time:
     name: Make it work this time
     jobs:
       New-job:
         name: New job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      Love-this-one:
+        name: Love this one
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
@@ -203,6 +212,11 @@ workflows:
         source_trigger: webhook
         target_job: New-job
         condition_type: always
+        enabled: true
+      New-job->Love-this-one:
+        source_job: New-job
+        target_job: Love-this-one
+        condition_type: on_job_success
         enabled: true
   New-one-for-test:
     name: New one for test

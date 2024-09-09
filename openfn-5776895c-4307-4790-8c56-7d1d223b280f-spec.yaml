@@ -26,7 +26,7 @@ credentials:
     name: WFWI Sandbox Credential For Elias
     owner: elias@openfn.org
 workflows:
-  Acumen:
+  Acumen-Workflow:
     name: Acumen Workflow
     jobs:
       Get-from-GoogleSheet:

@@ -5,6 +5,9 @@
   "inserted_at": "2024-05-11T01:01:37Z",
   "updated_at": "2024-09-09T08:08:31Z",
   "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "project_credentials": {
     "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
       "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
@@ -47,9 +50,6 @@
       "owner": "ayodele@openfn.org"
     }
   },
-  "history_retention_period": null,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "workflows": {
     "Test-with-UNDP": {
       "id": "a76042e0-7ca9-43e6-9255-a9e7c6cbefbb",
@@ -700,8 +700,8 @@
     "Acumen-Workflow": {
       "id": "ac10d7d6-8eb8-4d74-b33f-4a45e893c64a",
       "name": "Acumen Workflow",
-      "inserted_at": "2024-09-09T08:08:31.181301Z",
-      "lock_version": 22,
+      "inserted_at": "2024-09-09T08:09:37.135097Z",
+      "lock_version": 23,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -741,6 +741,13 @@
         "yoooio": {
           "id": "3d467b89-8869-4671-95f2-9a985770f033",
           "name": "yoooio",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Test-GHSync": {
+          "id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
+          "name": "Test GHSync",
           "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
@@ -784,6 +791,13 @@
           "source_job_id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
           "condition_type": "on_job_success",
           "target_job_id": "3d467b89-8869-4671-95f2-9a985770f033"
+        },
+        "yoooio->Test-GHSync": {
+          "enabled": true,
+          "id": "9794b7d7-756a-4c3d-8cae-e0f3e475434d",
+          "source_job_id": "3d467b89-8869-4671-95f2-9a985770f033",
+          "condition_type": "on_job_success",
+          "target_job_id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5"
         }
       }
     }

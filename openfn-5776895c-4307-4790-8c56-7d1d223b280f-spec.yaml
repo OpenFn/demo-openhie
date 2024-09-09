@@ -86,6 +86,15 @@ workflows:
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
+      Test-GHSync:
+        name: Test GHSync
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
     triggers:
       webhook:
         type: webhook
@@ -116,6 +125,11 @@ workflows:
       Do-this->yoooio:
         source_job: Do-this
         target_job: yoooio
+        condition_type: on_job_success
+        enabled: true
+      yoooio->Test-GHSync:
+        source_job: yoooio
+        target_job: Test-GHSync
         condition_type: on_job_success
         enabled: true
   Create-YouTrack-Issues-via-API:

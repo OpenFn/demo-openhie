@@ -6,7 +6,7 @@ workflows:
     name: Testing Save and Sync
     jobs:
       New-job:
-        name: New job
+        name: New job2
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |

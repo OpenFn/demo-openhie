@@ -1,0 +1,46 @@
+{
+  "id": "2fd9b8bf-0475-4147-8e97-05e4f32068e2",
+  "name": "gonnabeinvalidated",
+  "description": null,
+  "inserted_at": "2024-08-27T13:05:08Z",
+  "updated_at": "2024-08-27T13:05:08Z",
+  "scheduled_deletion": null,
+  "history_retention_period": 90,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
+  "project_credentials": {},
+  "requires_mfa": false,
+  "workflows": {
+    "Testing-Save-and-Sync": {
+      "id": "6dca608d-7a5a-472f-858b-5333085dec7a",
+      "name": "Testing Save and Sync",
+      "inserted_at": "2025-01-09T17:24:42.897855Z",
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "18683029-3afc-4b80-8f86-cee16ad00f4d",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "e38781ab-fb8c-4707-89bc-553e99d90f0e",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "8d1e95d7-c5e2-4672-8627-97fa4d637fba",
+          "source_trigger_id": "18683029-3afc-4b80-8f86-cee16ad00f4d",
+          "condition_type": "always",
+          "target_job_id": "e38781ab-fb8c-4707-89bc-553e99d90f0e"
+        }
+      }
+    }
+  }
+}

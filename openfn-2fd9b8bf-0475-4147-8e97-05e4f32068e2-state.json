@@ -3,35 +3,16 @@
   "name": "gonnabeinvalidated",
   "description": null,
   "inserted_at": "2024-08-27T13:05:08Z",
-  "updated_at": "2024-08-27T13:05:08Z",
+  "updated_at": "2025-01-09T17:26:08Z",
   "scheduled_deletion": null,
+  "project_credentials": {},
   "history_retention_period": 90,
   "dataclip_retention_period": null,
   "retention_policy": "retain_all",
-  "project_credentials": {},
-  "requires_mfa": false,
   "workflows": {
     "Testing-Save-and-Sync": {
       "id": "6dca608d-7a5a-472f-858b-5333085dec7a",
       "name": "Testing Save and Sync",
-      "inserted_at": "2025-01-09T17:24:42.897855Z",
-      "lock_version": 1,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "18683029-3afc-4b80-8f86-cee16ad00f4d",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "New-job": {
-          "id": "e38781ab-fb8c-4707-89bc-553e99d90f0e",
-          "name": "New job",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
       "edges": {
         "webhook->New-job": {
           "enabled": true,
@@ -40,7 +21,29 @@
           "condition_type": "always",
           "target_job_id": "e38781ab-fb8c-4707-89bc-553e99d90f0e"
         }
+      },
+      "concurrency": null,
+      "inserted_at": "2025-01-09T17:24:42Z",
+      "updated_at": "2025-01-09T17:26:08Z",
+      "jobs": {
+        "New-job": {
+          "id": "e38781ab-fb8c-4707-89bc-553e99d90f0e",
+          "name": "New job2",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "deleted_at": null,
+      "lock_version": 2,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "18683029-3afc-4b80-8f86-cee16ad00f4d",
+          "type": "webhook"
+        }
       }
     }
-  }
+  },
+  "requires_mfa": false
 }

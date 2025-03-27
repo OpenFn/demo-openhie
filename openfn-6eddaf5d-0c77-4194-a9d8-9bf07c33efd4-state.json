@@ -1,0 +1,62 @@
+{
+  "id": "6eddaf5d-0c77-4194-a9d8-9bf07c33efd4",
+  "name": "ayodele-demo",
+  "description": null,
+  "concurrency": null,
+  "inserted_at": "2024-08-28T10:06:33Z",
+  "updated_at": "2024-08-28T10:07:06Z",
+  "scheduled_deletion": null,
+  "project_credentials": {},
+  "history_retention_period": 365,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
+  "collections": {},
+  "workflows": {
+    "New": {
+      "id": "035b6431-e845-42f4-94c9-40738525bdf8",
+      "name": "New",
+      "inserted_at": "2025-01-10T15:12:57.903474Z",
+      "lock_version": 2,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "3569bb19-5274-443f-8e51-b57419613837",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "eb3ae76d-c6a6-41aa-8882-cff8e8145b56",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "y": {
+          "id": "c58ff82e-aa57-41e4-84ce-2950ddeb0167",
+          "name": "y",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "d72bac06-2a44-4643-85aa-dacf6560f96c",
+          "target_job_id": "eb3ae76d-c6a6-41aa-8882-cff8e8145b56",
+          "source_trigger_id": "3569bb19-5274-443f-8e51-b57419613837",
+          "condition_type": "always"
+        },
+        "New-job->y": {
+          "enabled": true,
+          "id": "0b6e701d-1ae2-479f-8f68-93985ae3dcb0",
+          "target_job_id": "c58ff82e-aa57-41e4-84ce-2950ddeb0167",
+          "source_job_id": "eb3ae76d-c6a6-41aa-8882-cff8e8145b56",
+          "condition_type": "on_job_success"
+        }
+      }
+    }
+  },
+  "requires_mfa": false
+}

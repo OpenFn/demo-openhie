@@ -1,8 +1,12 @@
 name: ayodele-arena
 description: null
+collections: null
 credentials:
-  ayodele@openfn.org-New-one-:
-    name: New one
+  "ayodele@openfn.org-New-one-":
+    name: 'New one '
+    owner: ayodele@openfn.org
+  ayodele@openfn.org-OpenAI-Key:
+    name: OpenAI Key
     owner: ayodele@openfn.org
   ayodele@openfn.org-UNDP-Database:
     name: UNDP Database
@@ -25,12 +29,15 @@ credentials:
   elias@openfn.org-WFWI-Sandbox-Credential-For-Elias:
     name: WFWI Sandbox Credential For Elias
     owner: elias@openfn.org
+  frank@openfn.org-frank-test-transfer:
+    name: frank test transfer
+    owner: frank@openfn.org
 workflows:
   Acumen-Workflow:
     name: Acumen Workflow
     jobs:
-      Get-from-GoogleSheet:
-        name: Get from GoogleSheetsssss
+      Get-into-Google-Sheets:
+        name: Get into Google Sheets
         adaptor: '@openfn/language-googlesheets@latest'
         credential: null
         body: |
@@ -71,6 +78,7 @@ workflows:
             return new Promise((resolve, reject) => {
               setTimeout(() => {
                 console.log('wait, and then resolve');
+                console.log(state.data)
                 resolve(state);
               // Note that this is in milliseconds 
               }, 5 * 1000);
@@ -95,14 +103,27 @@ workflows:
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
+          fn(state =>{
+            return state
+          })
+
+      crash:
+        name: crash
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          crash()
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
-      webhook->Get-from-GoogleSheet:
+      webhook->Get-into-Google-Sheets:
         source_trigger: webhook
-        target_job: Get-from-GoogleSheet
+        target_job: Get-into-Google-Sheets
         condition_type: always
         enabled: true
       Clean-and-Map-data->Cosmo:
@@ -110,17 +131,18 @@ workflows:
         target_job: Cosmo
         condition_type: on_job_failure
         enabled: true
-      Get-from-GoogleSheet->Do-this:
-        source_job: Get-from-GoogleSheet
+      Get-into-Google-Sheets->Do-this:
+        source_job: Get-into-Google-Sheets
         target_job: Do-this
         condition_type: on_job_success
         enabled: true
-      Get-from-GoogleSheet->Clean-and-Map-data:
-        source_job: Get-from-GoogleSheet
+      Get-into-Google-Sheets->Clean-and-Map-data:
+        source_job: Get-into-Google-Sheets
         target_job: Clean-and-Map-data
         condition_type: js_expression
         condition_label: Always true
-        condition_expression: true
+        condition_expression: |
+          true
         enabled: true
       Do-this->yoooio:
         source_job: Do-this
@@ -131,6 +153,34 @@ workflows:
         source_job: yoooio
         target_job: Test-GHSync
         condition_type: on_job_success
+        enabled: true
+      Cosmo->crash:
+        source_job: Cosmo
+        target_job: crash
+        condition_type: on_job_success
+        enabled: true
+  Any-Workflow:
+    name: Any Workflow
+    jobs:
+      Get-data:
+        name: Get data
+        adaptor: '@openfn/language-http@7.0.3'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          get('https://docs.openfn.org/documentation');
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '*/15 * * * *'
+        enabled: false
+    edges:
+      cron->Get-data:
+        source_trigger: cron
+        target_job: Get-data
+        condition_type: always
         enabled: true
   Create-YouTrack-Issues-via-API:
     name: Create YouTrack Issues via API
@@ -144,7 +194,7 @@ workflows:
 
       Create-an-issue-on-YouTrack2:
         name: Create an issue on YouTrack2
-        adaptor: '@openfn/language-salesforce@2.1.0'
+        adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
           // Get started by adding operations from the API reference
@@ -182,6 +232,45 @@ workflows:
         target_job: Create-an-issue-on-YouTrack2
         condition_type: on_job_success
         enabled: true
+  Demo-with-OpenAI:
+    name: Demo with OpenAI
+    jobs:
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-http@latest'
+        credential: ayodele@openfn.org-OpenAI-Key
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+          post('https://api.openai.com/v1/chat/completions', {
+             body: {
+                  "model": "gpt-4o",
+                  "messages": [
+                      {
+                          "role": "developer",
+                          "content": "You are a helpful assistant."
+                      },
+                      {
+                          "role": "user",
+                          "content": "Write a fact about cameroon."
+                      }
+                  ]
+              },
+             headers: {'content-type': 'application/json',
+             "Authorization": "Bearer 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"},
+           })
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->New-job:
+        source_trigger: webhook
+        target_job: New-job
+        condition_type: always
+        enabled: true
   Make-it-work-this-time:
     name: Make it work this time
     jobs:
@@ -194,6 +283,10 @@ workflows:
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
+          fn(state => {
+            console.log("Hey this should not show_make this work_")
+            return state
+          })
       Love-this-one:
         name: Love this one
         adaptor: '@openfn/language-common@latest'
@@ -218,8 +311,8 @@ workflows:
         target_job: Love-this-one
         condition_type: on_job_success
         enabled: true
-  New-one-for-test:
-    name: New one for test
+  New-one-for-PostHog:
+    name: New one for PostHog
     jobs:
       New-job:
         name: New job
@@ -238,26 +331,35 @@ workflows:
       webhook->New-job:
         source_trigger: webhook
         target_job: New-job
-        condition_type: always
+        condition_type: js_expression
+        condition_label: null
+        condition_expression: |
+          !state.data && state.data
         enabled: true
-  Old:
-    name: Old
+  "OpenFn-<>-Airtable":
+    name: 'OpenFn <> Airtable'
     jobs:
-      Anot-GOog:
-        name: Anot GOog
-        adaptor: '@openfn/language-googlesheets@latest'
+      New-job:
+        name: New job
+        adaptor: '@openfn/language-http@latest'
         credential: null
         body: |
-          // Get started by adding operations from the API reference
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
+          get('https://api.airtable.com/v0/app9FzxR6Ee7cWoZf/tblkL2xslbJ0nm5iW/',{
+             headers: {'content-type': 'application/json',
+             "Authorization": "Bearer patko6kz0fcOBZPAh.73626d71decbef762b7fb6ae80ffd1a709c5c7b9175cec5429d850abb690bf4b"},
+           })
     triggers:
       webhook:
         type: webhook
         enabled: false
     edges:
-      webhook->Anot-GOog:
+      webhook->New-job:
         source_trigger: webhook
-        target_job: Anot-GOog
+        target_job: New-job
         condition_type: always
         enabled: true
   OpenSPP:
@@ -375,13 +477,9 @@ workflows:
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-          console.log('Do Something and this')
-          console.log(state.data)
-
+          fn(state=>{
+          console.log(state)
+          })
       try-again:
         name: try again
         adaptor: '@openfn/language-common@latest'
@@ -391,6 +489,15 @@ workflows:
           // step. Click Docs to see list of operations or visit
           // https://bit.ly/OFNJWG for our job writing guide
           // and example job codes.
+          crash()
+      jjks:
+        name: jjks
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
     triggers:
       webhook:
@@ -405,6 +512,11 @@ workflows:
       New-job->try-again:
         source_job: New-job
         target_job: try-again
+        condition_type: on_job_success
+        enabled: true
+      New-job->jjks:
+        source_job: New-job
+        target_job: jjks
         condition_type: on_job_success
         enabled: true
   Test:
@@ -425,27 +537,6 @@ workflows:
       webhook->test-Job:
         source_trigger: webhook
         target_job: test-Job
-        condition_type: always
-        enabled: true
-  Test-WFWI-Sandbox:
-    name: Test WFWI Sandbox
-    jobs:
-      Salesy:
-        name: Salesy
-        adaptor: '@openfn/language-salesforce@latest'
-        credential: ayodele@openfn.org-slash-credential
-        body: |
-          // Get started by adding operations from the API reference
-          describeAll()
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: false
-    edges:
-      webhook->Salesy:
-        source_trigger: webhook
-        target_job: Salesy
         condition_type: always
         enabled: true
   Test-with-UNDP:
@@ -657,6 +748,28 @@ workflows:
         source_job: New-job
         target_job: Add-new-one
         condition_type: on_job_success
+        enabled: true
+  "[New-one-for-test]":
+    name: '[New one for test]'
+    jobs:
+      Create-a-new-workflow:
+        name: Create a new workflow
+        adaptor: '@openfn/language-http@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Create-a-new-workflow:
+        source_trigger: webhook
+        target_job: Create-a-new-workflow
+        condition_type: always
         enabled: true
   dalgo-comp:
     name: dalgo-comp

@@ -52,10 +52,9 @@ workflows:
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
-
+          // does it work from inspector?
       Cosmo:
         name: Cosmo
         adaptor: '@openfn/language-common@latest'

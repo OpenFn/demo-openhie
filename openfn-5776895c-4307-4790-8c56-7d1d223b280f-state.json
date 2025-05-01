@@ -6,9 +6,6 @@
   "inserted_at": "2024-05-11T01:01:37Z",
   "updated_at": "2025-05-01T09:20:58Z",
   "scheduled_deletion": null,
-  "history_retention_period": 7,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "project_credentials": {
     "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
       "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
@@ -61,6 +58,9 @@
       "owner": "frank@openfn.org"
     }
   },
+  "history_retention_period": 7,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "allow_support_access": true,
   "collections": {},
   "requires_mfa": false,
@@ -575,124 +575,6 @@
         }
       }
     },
-    "Acumen-Workflow": {
-      "id": "ac10d7d6-8eb8-4d74-b33f-4a45e893c64a",
-      "name": "Acumen Workflow",
-      "inserted_at": "2025-03-05T13:05:39.276767Z",
-      "lock_version": 36,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "fdfea61e-4b79-4e7d-95c3-308dcc53c63f",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Get-into-Google-Sheets": {
-          "id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
-          "name": "Get into Google Sheets",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//versionz=oore\n",
-          "adaptor": "@openfn/language-googlesheets@latest",
-          "project_credential_id": null
-        },
-        "Clean-and-Map-data": {
-          "id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
-          "name": "Clean and Map data",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "Cosmo": {
-          "id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
-          "name": "Cosmo",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nfn(x => x)\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "Do-this": {
-          "id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
-          "name": "Do this",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// Get started by adding operations from the API reference\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      console.log(state.data)\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 5 * 1000);\n  });\n});\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "yoooio": {
-          "id": "3d467b89-8869-4671-95f2-9a985770f033",
-          "name": "yoooio",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "Test-GHSync": {
-          "id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
-          "name": "Test GHSync",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state =>{\n  return state\n})\n\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "crash": {
-          "id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
-          "name": "crash",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\ncrash()",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->Get-into-Google-Sheets": {
-          "enabled": true,
-          "id": "c7f4ff57-cc32-40ef-b91b-adcb1e0bc4ff",
-          "target_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
-          "source_trigger_id": "fdfea61e-4b79-4e7d-95c3-308dcc53c63f",
-          "condition_type": "always"
-        },
-        "Clean-and-Map-data->Cosmo": {
-          "enabled": true,
-          "id": "6296cd98-b514-4afa-9237-f930efdcc078",
-          "target_job_id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
-          "source_job_id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
-          "condition_type": "on_job_failure",
-          "condition_label": "Path to clean Data"
-        },
-        "Get-into-Google-Sheets->Do-this": {
-          "enabled": true,
-          "id": "8dc2f83a-1d64-4e4e-8e62-3e44295ea89b",
-          "target_job_id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
-          "source_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
-          "condition_type": "on_job_success"
-        },
-        "Get-into-Google-Sheets->Clean-and-Map-data": {
-          "enabled": true,
-          "id": "6ba86308-6e8d-4af6-bad9-34e6f3f7bc47",
-          "target_job_id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
-          "source_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
-          "condition_type": "js_expression",
-          "condition_label": "Always true",
-          "condition_expression": "true"
-        },
-        "Do-this->yoooio": {
-          "enabled": true,
-          "id": "ca73ea6c-9705-42dd-8625-d6e05fc01e5d",
-          "target_job_id": "3d467b89-8869-4671-95f2-9a985770f033",
-          "source_job_id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
-          "condition_type": "on_job_success"
-        },
-        "yoooio->Test-GHSync": {
-          "enabled": true,
-          "id": "9794b7d7-756a-4c3d-8cae-e0f3e475434d",
-          "target_job_id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
-          "source_job_id": "3d467b89-8869-4671-95f2-9a985770f033",
-          "condition_type": "on_job_success"
-        },
-        "Cosmo->crash": {
-          "enabled": true,
-          "id": "b7d362ae-d9fd-45ac-84f4-34077364a0d7",
-          "target_job_id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
-          "source_job_id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
-          "condition_type": "on_job_success"
-        }
-      }
-    },
     "Create-YouTrack-Issues-via-API": {
       "id": "82c0e069-61af-4620-bbfc-c2dee23dc99d",
       "name": "Create YouTrack Issues via API",
@@ -918,6 +800,124 @@
           "target_job_id": "290ed955-e422-4da5-8a56-c313ec3a1582",
           "source_trigger_id": "f0c4e430-4644-4873-81c5-e2e842a44cc3",
           "condition_type": "always"
+        }
+      }
+    },
+    "Acumen-Workflow": {
+      "id": "ac10d7d6-8eb8-4d74-b33f-4a45e893c64a",
+      "name": "Acumen Workflow",
+      "inserted_at": "2025-05-01T09:21:43.059735Z",
+      "lock_version": 37,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "fdfea61e-4b79-4e7d-95c3-308dcc53c63f",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Get-into-Google-Sheets": {
+          "id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
+          "name": "Get into Google Sheets",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//versionz=oore\n",
+          "adaptor": "@openfn/language-googlesheets@latest",
+          "project_credential_id": null
+        },
+        "Clean-and-Map-data": {
+          "id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
+          "name": "Clean and Map data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// does it work from inspector?",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Cosmo": {
+          "id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
+          "name": "Cosmo",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nfn(x => x)\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Do-this": {
+          "id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
+          "name": "Do this",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// Get started by adding operations from the API reference\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      console.log(state.data)\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 5 * 1000);\n  });\n});\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "yoooio": {
+          "id": "3d467b89-8869-4671-95f2-9a985770f033",
+          "name": "yoooio",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Test-GHSync": {
+          "id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
+          "name": "Test GHSync",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state =>{\n  return state\n})\n\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "crash": {
+          "id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
+          "name": "crash",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\ncrash()",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Get-into-Google-Sheets": {
+          "enabled": true,
+          "id": "c7f4ff57-cc32-40ef-b91b-adcb1e0bc4ff",
+          "target_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
+          "source_trigger_id": "fdfea61e-4b79-4e7d-95c3-308dcc53c63f",
+          "condition_type": "always"
+        },
+        "Clean-and-Map-data->Cosmo": {
+          "enabled": true,
+          "id": "6296cd98-b514-4afa-9237-f930efdcc078",
+          "target_job_id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
+          "source_job_id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
+          "condition_type": "on_job_failure",
+          "condition_label": "Path to clean Data"
+        },
+        "Get-into-Google-Sheets->Do-this": {
+          "enabled": true,
+          "id": "8dc2f83a-1d64-4e4e-8e62-3e44295ea89b",
+          "target_job_id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
+          "source_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
+          "condition_type": "on_job_success"
+        },
+        "Get-into-Google-Sheets->Clean-and-Map-data": {
+          "enabled": true,
+          "id": "6ba86308-6e8d-4af6-bad9-34e6f3f7bc47",
+          "target_job_id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
+          "source_job_id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
+          "condition_type": "js_expression",
+          "condition_label": "Always true",
+          "condition_expression": "true"
+        },
+        "Do-this->yoooio": {
+          "enabled": true,
+          "id": "ca73ea6c-9705-42dd-8625-d6e05fc01e5d",
+          "target_job_id": "3d467b89-8869-4671-95f2-9a985770f033",
+          "source_job_id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
+          "condition_type": "on_job_success"
+        },
+        "yoooio->Test-GHSync": {
+          "enabled": true,
+          "id": "9794b7d7-756a-4c3d-8cae-e0f3e475434d",
+          "target_job_id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
+          "source_job_id": "3d467b89-8869-4671-95f2-9a985770f033",
+          "condition_type": "on_job_success"
+        },
+        "Cosmo->crash": {
+          "enabled": true,
+          "id": "b7d362ae-d9fd-45ac-84f4-34077364a0d7",
+          "target_job_id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
+          "source_job_id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
+          "condition_type": "on_job_success"
         }
       }
     }

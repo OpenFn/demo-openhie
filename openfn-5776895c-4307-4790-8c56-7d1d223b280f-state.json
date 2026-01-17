@@ -1,11 +1,17 @@
 {
+  "env": "main",
   "id": "5776895c-4307-4790-8c56-7d1d223b280f",
   "name": "a-github-test",
   "description": "taylor uses this to check the github connection",
+  "color": null,
   "concurrency": 1,
   "inserted_at": "2024-05-11T01:01:37Z",
-  "updated_at": "2025-05-01T09:20:58Z",
+  "updated_at": "2026-01-13T18:15:48Z",
+  "parent_id": null,
   "scheduled_deletion": null,
+  "history_retention_period": 7,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "project_credentials": {
     "elias@openfn.org-WFWI-Sandbox-Credential-For-Elias": {
       "id": "704b60c6-5cc2-49d4-ae22-b2ee0382b4e3",
@@ -56,60 +62,28 @@
       "id": "0f6cbe01-2511-4990-a990-111b3275acb0",
       "name": "frank test transfer",
       "owner": "frank@openfn.org"
+    },
+    "elias@openfn.org-My-Credential-For-Test": {
+      "id": "916c56d3-9c6f-4823-b25d-d49d8516d63a",
+      "name": "My Credential For Test",
+      "owner": "elias@openfn.org"
+    },
+    "taylor@openfn.org-test-mercy": {
+      "id": "24d9e863-0dee-4d77-b50a-8f41616f5ea7",
+      "name": "test-mercy",
+      "owner": "taylor@openfn.org"
+    },
+    "taylor@openfn.org-fill-out-stuff": {
+      "id": "cd79883b-1300-4073-b0f9-b6be442a154b",
+      "name": "fill out stuff",
+      "owner": "taylor@openfn.org"
     }
   },
-  "history_retention_period": 7,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "allow_support_access": true,
   "collections": {},
   "requires_mfa": false,
+  "version_history": [],
   "workflows": {
-    "Test-with-UNDP": {
-      "id": "a76042e0-7ca9-43e6-9255-a9e7c6cbefbb",
-      "name": "Test with UNDP",
-      "inserted_at": "2024-09-09T07:32:17.292644Z",
-      "lock_version": 8,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "78a24dcc-1c38-403e-82be-35d661006d5b",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Validate-submissions": {
-          "id": "6b34b097-3c5c-435e-964b-742fa9443c8a",
-          "name": "Validate submissions",
-          "body": "// Get started by adding operations from the API reference\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "Send-data-to-mysql-db": {
-          "id": "d995fc10-c223-4eec-ae54-6f1cf4943721",
-          "name": "Send data to mysql db",
-          "body": "// Get started by adding operations from the API reference\nfn(state => {\n  return {...state, \"country\":\"Nigeria\"}\n})\n\n\n// upsertMany(\n//   'users', // the DB table\n//   [\n//     { name: 'one', email: 'one@openfn.org' },\n//     { name: 'two', email: 'two@openfn.org' },\n//   ]\n// )\n",
-          "adaptor": "@openfn/language-mysql@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->Validate-submissions": {
-          "enabled": true,
-          "id": "268fe39b-a441-4f8d-9dae-b535ee6de82a",
-          "target_job_id": "6b34b097-3c5c-435e-964b-742fa9443c8a",
-          "source_trigger_id": "78a24dcc-1c38-403e-82be-35d661006d5b",
-          "condition_type": "always"
-        },
-        "Validate-submissions->Send-data-to-mysql-db": {
-          "enabled": true,
-          "id": "3771ccf2-74f8-435b-8a74-1da072e61c08",
-          "target_job_id": "d995fc10-c223-4eec-ae54-6f1cf4943721",
-          "source_job_id": "6b34b097-3c5c-435e-964b-742fa9443c8a",
-          "condition_type": "on_job_success"
-        }
-      }
-    },
     "Test": {
       "id": "643433f3-fe9b-4b79-98dd-8a05f8ef2860",
       "name": "Test",
@@ -172,107 +146,6 @@
         }
       }
     },
-    "Timeout": {
-      "id": "1a73456d-4c74-4097-858b-040755ceba6f",
-      "name": "Timeout",
-      "inserted_at": "2024-09-09T07:32:17.746390Z",
-      "lock_version": 6,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "ab715f05-8c2e-4aac-a951-1f710548a07f",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "New-hsjss": {
-          "id": "30447b99-b29c-4059-9223-1168e20d7a99",
-          "name": "New hsjss",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 10 * 60 * 1000);\n  });\n});\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "hbjj": {
-          "id": "1aaa30ad-88cc-4cc5-93c3-1c133fe3a6b8",
-          "name": "hbjj",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "hjvj": {
-          "id": "213755d8-6bb0-4037-9628-fd68faa60d81",
-          "name": "hjvj",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "bj": {
-          "id": "a0a314ed-0851-4821-83c6-63bb5a39b240",
-          "name": "bj",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "bkkj": {
-          "id": "77152866-bab0-4174-9596-e0f0ed4b1582",
-          "name": "bkkj",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "nkn": {
-          "id": "d52d5f1a-4c0d-48bb-9569-cc8394186ba6",
-          "name": "nkn",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->New-hsjss": {
-          "enabled": true,
-          "id": "60702066-e9e4-4453-82e1-02acdff17b28",
-          "target_job_id": "30447b99-b29c-4059-9223-1168e20d7a99",
-          "source_trigger_id": "ab715f05-8c2e-4aac-a951-1f710548a07f",
-          "condition_type": "always"
-        },
-        "New-hsjss->hbjj": {
-          "enabled": true,
-          "id": "d06883d6-9c4d-4f4a-9fa1-21f2e871d814",
-          "target_job_id": "1aaa30ad-88cc-4cc5-93c3-1c133fe3a6b8",
-          "source_job_id": "30447b99-b29c-4059-9223-1168e20d7a99",
-          "condition_type": "on_job_success"
-        },
-        "New-hsjss->hjvj": {
-          "enabled": true,
-          "id": "642e1659-e09c-4f1d-a948-7b052d104c77",
-          "target_job_id": "213755d8-6bb0-4037-9628-fd68faa60d81",
-          "source_job_id": "30447b99-b29c-4059-9223-1168e20d7a99",
-          "condition_type": "on_job_success"
-        },
-        "New-hsjss->bj": {
-          "enabled": true,
-          "id": "ec29ec92-cfc2-49c8-ac3d-44510fc32be0",
-          "target_job_id": "a0a314ed-0851-4821-83c6-63bb5a39b240",
-          "source_job_id": "30447b99-b29c-4059-9223-1168e20d7a99",
-          "condition_type": "on_job_success"
-        },
-        "hbjj->bkkj": {
-          "enabled": true,
-          "id": "a8fdb54c-32c6-474b-a9f5-222bb4223d1f",
-          "target_job_id": "77152866-bab0-4174-9596-e0f0ed4b1582",
-          "source_job_id": "1aaa30ad-88cc-4cc5-93c3-1c133fe3a6b8",
-          "condition_type": "on_job_success"
-        },
-        "bkkj->nkn": {
-          "enabled": true,
-          "id": "03e1ff6c-f2ac-460d-bbd6-c37be2ca7407",
-          "target_job_id": "d52d5f1a-4c0d-48bb-9569-cc8394186ba6",
-          "source_job_id": "77152866-bab0-4174-9596-e0f0ed4b1582",
-          "condition_type": "on_job_success"
-        }
-      }
-    },
     "Yoooo": {
       "id": "94c36650-08aa-46cb-9337-edb8e4562a9e",
       "name": "Yoooo",
@@ -315,97 +188,6 @@
           "target_job_id": "1d04aefd-8ddf-4cd5-a9fc-922cdbad8713",
           "source_job_id": "c72a41f5-556a-4088-a0ae-8b1beccf341e",
           "condition_type": "on_job_success"
-        }
-      }
-    },
-    "dalgo-comp": {
-      "id": "211f7b0e-1fd1-493b-a527-d0c827920ad9",
-      "name": "dalgo-comp",
-      "inserted_at": "2024-09-09T07:32:17.963544Z",
-      "lock_version": 23,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "d2373a9a-b2bf-4884-b922-f5ebcfc740ec",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Goog": {
-          "id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
-          "name": "Goog",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n\n// fn(state => {\n//   getValues('1O-a4_RgPF_p8W3I6b5M9wobA3-CBW8hLClZfUik5sos','Sheet1!A1:E1')\n// }\n// )\n",
-          "adaptor": "@openfn/language-googlesheets@latest",
-          "project_credential_id": null
-        },
-        "compare-data-from-sheets": {
-          "id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
-          "name": "compare data from sheets",
-          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
-          "adaptor": "@openfn/language-salesforce@4.6.5",
-          "project_credential_id": null
-        },
-        "mm": {
-          "id": "fedb91da-711c-4a7b-b223-e1717c88ea07",
-          "name": "mm",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->Goog": {
-          "enabled": true,
-          "id": "ab394159-66ba-4b75-891f-351bb304f312",
-          "target_job_id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
-          "source_trigger_id": "d2373a9a-b2bf-4884-b922-f5ebcfc740ec",
-          "condition_type": "always"
-        },
-        "Goog->compare-data-from-sheets": {
-          "enabled": true,
-          "id": "cd3cdc00-a8b8-4d03-97c3-e8ddb6828ee1",
-          "target_job_id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
-          "source_job_id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
-          "condition_type": "on_job_success"
-        },
-        "compare-data-from-sheets->mm": {
-          "enabled": true,
-          "id": "d778e696-7c94-41cc-b97a-3a20413c3128",
-          "target_job_id": "fedb91da-711c-4a7b-b223-e1717c88ea07",
-          "source_job_id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
-          "condition_type": "on_job_success"
-        }
-      }
-    },
-    "New-one-for-PostHog": {
-      "id": "1097a2b0-9ce8-405d-b15e-65f5929d1a3c",
-      "name": "New one for PostHog",
-      "inserted_at": "2024-09-19T08:39:25.004995Z",
-      "lock_version": 2,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "478ed526-aa33-43de-8440-d10603963645",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "New-job": {
-          "id": "51b7c7b2-178a-431f-8355-fb7e7f248273",
-          "name": "New job",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->New-job": {
-          "enabled": true,
-          "id": "c1480127-939f-44bd-8c1e-8f167bdb3840",
-          "target_job_id": "51b7c7b2-178a-431f-8355-fb7e7f248273",
-          "source_trigger_id": "478ed526-aa33-43de-8440-d10603963645",
-          "condition_type": "js_expression",
-          "condition_expression": "!state.data && state.data"
         }
       }
     },
@@ -530,51 +312,6 @@
         }
       }
     },
-    "Make-it-work-this-time": {
-      "id": "d60d8176-de04-4793-9c69-80872fd9d28a",
-      "name": "Make it work this time",
-      "inserted_at": "2025-02-27T11:08:14.329325Z",
-      "lock_version": 9,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "d027e4ae-3749-4ec0-8a8c-ea80746cbe3b",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "New-job": {
-          "id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
-          "name": "New job",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state => {\n  console.log(\"Hey this should not show_make this work_\")\n  return state\n})",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        },
-        "Love-this-one": {
-          "id": "44836d96-3abd-4f59-8d94-ab58204f8a9e",
-          "name": "Love this one",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
-          "adaptor": "@openfn/language-common@latest",
-          "project_credential_id": null
-        }
-      },
-      "edges": {
-        "webhook->New-job": {
-          "enabled": true,
-          "id": "a5e1d508-16b9-44e2-8dfd-2837e520c442",
-          "target_job_id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
-          "source_trigger_id": "d027e4ae-3749-4ec0-8a8c-ea80746cbe3b",
-          "condition_type": "always"
-        },
-        "New-job->Love-this-one": {
-          "enabled": true,
-          "id": "f6f057df-cf82-401f-8eb9-78dc10aba4c9",
-          "target_job_id": "44836d96-3abd-4f59-8d94-ab58204f8a9e",
-          "source_job_id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
-          "condition_type": "on_job_success"
-        }
-      }
-    },
     "Create-YouTrack-Issues-via-API": {
       "id": "82c0e069-61af-4620-bbfc-c2dee23dc99d",
       "name": "Create YouTrack Issues via API",
@@ -651,14 +388,756 @@
         }
       }
     },
-    "OpenSPP": {
-      "id": "cd9724bb-9420-46bf-b06b-ada885457e5e",
-      "name": "OpenSPP",
-      "inserted_at": "2025-03-07T14:16:20.891906Z",
+    "chw-to-dhis2": {
+      "id": "84e54507-6858-4d75-952f-228b19dbc783",
+      "name": "chw to dhis2",
+      "inserted_at": "2025-08-19T11:24:34.120714Z",
+      "lock_version": 1,
+      "triggers": {
+        "cron": {
+          "enabled": false,
+          "id": "4370b2de-afec-4fa8-8efb-d64a546c4bea",
+          "type": "cron",
+          "cron_expression": "10 03 * * *"
+        }
+      },
+      "jobs": {
+        "get-people": {
+          "id": "7d78247a-827c-404e-8dd4-eeb05347a3bd",
+          "name": "get people",
+          "body": "get('/users')",
+          "adaptor": "@openfn/language-kobotoolbox@latest",
+          "project_credential_id": null
+        },
+        "clean-data": {
+          "id": "ab64201c-4bc9-4f31-8c9e-64bb605c0b97",
+          "name": "clean data",
+          "body": "// pick out name and uniqueID\nfn(state => {\n\n  const cleanUsers = state.data.map(u => ({\n    name: u.name,\n    uniqueId: u.phone.replace(/-/g, \"\").replace(/\\s/g, '')\n  }));\n\n  const someCalc = state.data[1].id * 15\n  console.log('the result', someCalc);\n\n  return { cleanUsers };\n})\n  .then(state => {\n    console.log(state);\n    return state;\n  })\n  .catch((error, state) => {\n    console.log('this wont stop me!', error)\n    return state;\n  })",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "map-and-load-TEIs": {
+          "id": "06edcae9-9c6f-47f8-89da-dc8b5bcdb260",
+          "name": "map and load TEIs",
+          "body": "// map and load TEIs\neach(\n  $.cleanUsers,\n  create(\"trackedEntityInstances\", {\n    orgUnit: \"FV43JisquSm\" /*0001 CH Mahosot*/,\n    trackedEntityType: \"MCPQUTHX1Ze\" /*Person*/,\n    attributes: [\n      { attribute: \"h5FuguPFF2j\" /*AEFI Case ID*/, value: $.uniqueId },\n      { attribute: \"mTYYajEhlPY\" /*AH_EBS - Name of Farmer*/, value: $.name }\n    ]\n  })\n)\n",
+          "adaptor": "@openfn/language-dhis2@latest",
+          "project_credential_id": null
+        },
+        "add-to-DW": {
+          "id": "c7935c54-08b8-4d74-82d8-65be0fa75840",
+          "name": "add to DW",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mssql@latest",
+          "project_credential_id": null
+        },
+        "request": {
+          "id": "193746d0-60c9-4ed8-81e4-21d8f0eb4543",
+          "name": "request",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openlmis@latest",
+          "project_credential_id": null
+        },
+        "load-to-openSPP": {
+          "id": "d38c99a1-707b-431d-80fd-cc97328ae356",
+          "name": "load to openSPP",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openspp@latest",
+          "project_credential_id": null
+        },
+        "send-error-alert": {
+          "id": "ecc1605e-5b6f-4a60-8566-ace3c2879aa2",
+          "name": "send error alert",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mailgun@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->get-people": {
+          "enabled": true,
+          "id": "7508f9fd-cd96-4236-8f84-423b941a7b06",
+          "target_job_id": "7d78247a-827c-404e-8dd4-eeb05347a3bd",
+          "source_trigger_id": "4370b2de-afec-4fa8-8efb-d64a546c4bea",
+          "condition_type": "always"
+        },
+        "get-people->clean-data": {
+          "enabled": true,
+          "id": "89147d4a-04ec-4d46-87b9-dc60fde94b47",
+          "target_job_id": "ab64201c-4bc9-4f31-8c9e-64bb605c0b97",
+          "source_job_id": "7d78247a-827c-404e-8dd4-eeb05347a3bd",
+          "condition_type": "js_expression",
+          "condition_label": "we have proper data",
+          "condition_expression": "state.data.length > 0"
+        },
+        "clean-data->map-and-load-TEIs": {
+          "enabled": true,
+          "id": "b01824e1-5cb5-4aaf-8b4d-5473e9e8771c",
+          "target_job_id": "06edcae9-9c6f-47f8-89da-dc8b5bcdb260",
+          "source_job_id": "ab64201c-4bc9-4f31-8c9e-64bb605c0b97",
+          "condition_type": "on_job_success"
+        },
+        "get-people->add-to-DW": {
+          "enabled": true,
+          "id": "62e4db1a-1d14-4450-8a8c-3073d7895e07",
+          "target_job_id": "c7935c54-08b8-4d74-82d8-65be0fa75840",
+          "source_job_id": "7d78247a-827c-404e-8dd4-eeb05347a3bd",
+          "condition_type": "always"
+        },
+        "get-people->request": {
+          "enabled": true,
+          "id": "17bec417-dcbf-4f09-8272-1c4032ef170c",
+          "target_job_id": "193746d0-60c9-4ed8-81e4-21d8f0eb4543",
+          "source_job_id": "7d78247a-827c-404e-8dd4-eeb05347a3bd",
+          "condition_type": "js_expression",
+          "condition_label": "needs shipment",
+          "condition_expression": "state.data = \"other\""
+        },
+        "clean-data->load-to-openSPP": {
+          "enabled": true,
+          "id": "9d0494dd-7207-4b08-8a52-61d992023b70",
+          "target_job_id": "d38c99a1-707b-431d-80fd-cc97328ae356",
+          "source_job_id": "ab64201c-4bc9-4f31-8c9e-64bb605c0b97",
+          "condition_type": "on_job_success"
+        },
+        "add-to-DW->send-error-alert": {
+          "enabled": true,
+          "id": "aaa54710-4c63-4281-890f-281ebbe31661",
+          "target_job_id": "ecc1605e-5b6f-4a60-8566-ace3c2879aa2",
+          "source_job_id": "c7935c54-08b8-4d74-82d8-65be0fa75840",
+          "condition_type": "on_job_failure"
+        },
+        "request->send-error-alert": {
+          "enabled": true,
+          "id": "2774c0dc-9c93-49cd-8541-7f7c5b4e2c93",
+          "target_job_id": "ecc1605e-5b6f-4a60-8566-ace3c2879aa2",
+          "source_job_id": "193746d0-60c9-4ed8-81e4-21d8f0eb4543",
+          "condition_type": "on_job_failure"
+        }
+      }
+    },
+    "chw-to-dhis2-1": {
+      "id": "b8a42a47-b334-4ba1-85b8-9db87244fa4d",
+      "name": "chw to dhis2 1",
+      "inserted_at": "2025-08-19T17:19:33.982131Z",
+      "lock_version": 1,
+      "triggers": {
+        "cron": {
+          "enabled": false,
+          "id": "28d052c2-f515-4d94-8e79-16778da3ee5d",
+          "type": "cron",
+          "cron_expression": "10 03 * * *"
+        }
+      },
+      "jobs": {
+        "get-people": {
+          "id": "fba5b36f-e878-49c8-8cb3-005d5bab11a8",
+          "name": "get people",
+          "body": "get('/users')",
+          "adaptor": "@openfn/language-kobotoolbox@latest",
+          "project_credential_id": null
+        },
+        "clean-data": {
+          "id": "6f3fed54-3e4e-4853-8bc6-99594839d780",
+          "name": "clean data",
+          "body": "// pick out name and uniqueID\nfn(state => {\n\n  const cleanUsers = state.data.map(u => ({\n    name: u.name,\n    uniqueId: u.phone.replace(/-/g, \"\").replace(/\\s/g, '')\n  }));\n\n  const someCalc = state.data[1].id * 15\n  console.log('the result', someCalc);\n\n  return { cleanUsers };\n})\n  .then(state => {\n    console.log(state);\n    return state;\n  })\n  .catch((error, state) => {\n    console.log('this wont stop me!', error)\n    return state;\n  })",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "map-and-load-TEIs": {
+          "id": "b7650b22-427d-4abe-8f0f-b4b963aefcc0",
+          "name": "map and load TEIs",
+          "body": "// map and load TEIs\neach(\n  $.cleanUsers,\n  create(\"trackedEntityInstances\", {\n    orgUnit: \"FV43JisquSm\" /*0001 CH Mahosot*/,\n    trackedEntityType: \"MCPQUTHX1Ze\" /*Person*/,\n    attributes: [\n      { attribute: \"h5FuguPFF2j\" /*AEFI Case ID*/, value: $.uniqueId },\n      { attribute: \"mTYYajEhlPY\" /*AH_EBS - Name of Farmer*/, value: $.name }\n    ]\n  })\n)\n",
+          "adaptor": "@openfn/language-dhis2@latest",
+          "project_credential_id": null
+        },
+        "add-to-DW": {
+          "id": "96852cec-76f3-464c-8c98-91a1f3082308",
+          "name": "add to DW",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mssql@latest",
+          "project_credential_id": null
+        },
+        "request": {
+          "id": "3c4b658b-7dff-4717-8e43-fe1746048f42",
+          "name": "request",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openlmis@latest",
+          "project_credential_id": null
+        },
+        "load-to-openSPP": {
+          "id": "f5e38e31-4474-4d9e-8f3f-e9c3a0485f33",
+          "name": "load to openSPP",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openspp@latest",
+          "project_credential_id": null
+        },
+        "send-error-alert": {
+          "id": "098e8b54-528b-4f41-88b0-c491cce7d598",
+          "name": "send error alert",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mailgun@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->get-people": {
+          "enabled": true,
+          "id": "c7fa00b2-85ba-4f6e-859e-5b265397557b",
+          "target_job_id": "fba5b36f-e878-49c8-8cb3-005d5bab11a8",
+          "source_trigger_id": "28d052c2-f515-4d94-8e79-16778da3ee5d",
+          "condition_type": "always"
+        },
+        "get-people->clean-data": {
+          "enabled": true,
+          "id": "b3f44c64-686d-4e0a-8e04-35598ad34857",
+          "target_job_id": "6f3fed54-3e4e-4853-8bc6-99594839d780",
+          "source_job_id": "fba5b36f-e878-49c8-8cb3-005d5bab11a8",
+          "condition_type": "js_expression",
+          "condition_label": "we have proper data",
+          "condition_expression": "state.data.length > 0"
+        },
+        "clean-data->map-and-load-TEIs": {
+          "enabled": true,
+          "id": "f59e383f-24f1-431d-87ab-0385ee8f0b6d",
+          "target_job_id": "b7650b22-427d-4abe-8f0f-b4b963aefcc0",
+          "source_job_id": "6f3fed54-3e4e-4853-8bc6-99594839d780",
+          "condition_type": "on_job_success"
+        },
+        "get-people->add-to-DW": {
+          "enabled": true,
+          "id": "8440c179-982f-4fac-8db9-1c5609391d70",
+          "target_job_id": "96852cec-76f3-464c-8c98-91a1f3082308",
+          "source_job_id": "fba5b36f-e878-49c8-8cb3-005d5bab11a8",
+          "condition_type": "always"
+        },
+        "get-people->request": {
+          "enabled": true,
+          "id": "5d5ae0f3-fb77-4711-80b4-2ad60947e39d",
+          "target_job_id": "3c4b658b-7dff-4717-8e43-fe1746048f42",
+          "source_job_id": "fba5b36f-e878-49c8-8cb3-005d5bab11a8",
+          "condition_type": "js_expression",
+          "condition_label": "needs shipment",
+          "condition_expression": "state.data = \"other\""
+        },
+        "clean-data->load-to-openSPP": {
+          "enabled": true,
+          "id": "c3300d64-1f18-465a-8cd4-70759efcbcbc",
+          "target_job_id": "f5e38e31-4474-4d9e-8f3f-e9c3a0485f33",
+          "source_job_id": "6f3fed54-3e4e-4853-8bc6-99594839d780",
+          "condition_type": "on_job_success"
+        },
+        "add-to-DW->send-error-alert": {
+          "enabled": true,
+          "id": "853d4d46-57cd-4a71-8514-57b4201adc22",
+          "target_job_id": "098e8b54-528b-4f41-88b0-c491cce7d598",
+          "source_job_id": "96852cec-76f3-464c-8c98-91a1f3082308",
+          "condition_type": "on_job_failure"
+        },
+        "request->send-error-alert": {
+          "enabled": true,
+          "id": "6129e9f3-f842-42a9-84cb-7eca7ecc59d5",
+          "target_job_id": "098e8b54-528b-4f41-88b0-c491cce7d598",
+          "source_job_id": "3c4b658b-7dff-4717-8e43-fe1746048f42",
+          "condition_type": "on_job_failure"
+        }
+      }
+    },
+    "chw-to-dhis2-1-1": {
+      "id": "22efbd03-408c-4d24-a843-2181adcbd4ca",
+      "name": "chw to dhis2 1 1",
+      "inserted_at": "2025-08-19T18:14:45.185936Z",
+      "lock_version": 1,
+      "triggers": {
+        "cron": {
+          "enabled": false,
+          "id": "fc4536ae-f4a3-489e-8805-bb291928bbcd",
+          "type": "cron",
+          "cron_expression": "10 03 * * *"
+        }
+      },
+      "jobs": {
+        "get-people": {
+          "id": "37f4486b-4a3b-40ae-8ddf-a0a2f07893c3",
+          "name": "get people",
+          "body": "get('/users')",
+          "adaptor": "@openfn/language-kobotoolbox@latest",
+          "project_credential_id": null
+        },
+        "clean-data": {
+          "id": "c88867c2-4135-45cb-8f9b-891291b08016",
+          "name": "clean data",
+          "body": "// pick out name and uniqueID\nfn(state => {\n\n  const cleanUsers = state.data.map(u => ({\n    name: u.name,\n    uniqueId: u.phone.replace(/-/g, \"\").replace(/\\s/g, '')\n  }));\n\n  const someCalc = state.data[1].id * 15\n  console.log('the result', someCalc);\n\n  return { cleanUsers };\n})\n  .then(state => {\n    console.log(state);\n    return state;\n  })\n  .catch((error, state) => {\n    console.log('this wont stop me!', error)\n    return state;\n  })",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "map-and-load-TEIs": {
+          "id": "8d00ea15-7bde-4401-8086-a963df7e5309",
+          "name": "map and load TEIs",
+          "body": "// map and load TEIs\neach(\n  $.cleanUsers,\n  create(\"trackedEntityInstances\", {\n    orgUnit: \"FV43JisquSm\" /*0001 CH Mahosot*/,\n    trackedEntityType: \"MCPQUTHX1Ze\" /*Person*/,\n    attributes: [\n      { attribute: \"h5FuguPFF2j\" /*AEFI Case ID*/, value: $.uniqueId },\n      { attribute: \"mTYYajEhlPY\" /*AH_EBS - Name of Farmer*/, value: $.name }\n    ]\n  })\n)\n",
+          "adaptor": "@openfn/language-dhis2@latest",
+          "project_credential_id": null
+        },
+        "add-to-DW": {
+          "id": "d9d4e786-8f4d-4cc5-813c-e5c872377022",
+          "name": "add to DW",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mssql@latest",
+          "project_credential_id": null
+        },
+        "request": {
+          "id": "c6933216-8b9b-4f45-8da0-8b3b657b6f0c",
+          "name": "request",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openlmis@latest",
+          "project_credential_id": null
+        },
+        "load-to-openSPP": {
+          "id": "c560979b-995a-41c1-8a22-ad5ccb8f75e8",
+          "name": "load to openSPP",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-openspp@latest",
+          "project_credential_id": null
+        },
+        "send-error-alert": {
+          "id": "46145ce4-bb27-42d4-836f-de8d38a70927",
+          "name": "send error alert",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-mailgun@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->get-people": {
+          "enabled": true,
+          "id": "6594932d-654a-47ea-80e9-5cbf551aae1e",
+          "target_job_id": "37f4486b-4a3b-40ae-8ddf-a0a2f07893c3",
+          "source_trigger_id": "fc4536ae-f4a3-489e-8805-bb291928bbcd",
+          "condition_type": "always"
+        },
+        "get-people->clean-data": {
+          "enabled": true,
+          "id": "4c7f8722-bcaa-4057-84f6-52fc8458f77b",
+          "target_job_id": "c88867c2-4135-45cb-8f9b-891291b08016",
+          "source_job_id": "37f4486b-4a3b-40ae-8ddf-a0a2f07893c3",
+          "condition_type": "js_expression",
+          "condition_label": "we have proper data",
+          "condition_expression": "state.data.length > 0"
+        },
+        "clean-data->map-and-load-TEIs": {
+          "enabled": true,
+          "id": "36669b3a-4d92-479b-835a-caaa938c0abf",
+          "target_job_id": "8d00ea15-7bde-4401-8086-a963df7e5309",
+          "source_job_id": "c88867c2-4135-45cb-8f9b-891291b08016",
+          "condition_type": "on_job_success"
+        },
+        "get-people->add-to-DW": {
+          "enabled": true,
+          "id": "375618a7-f0bd-406c-84c7-78d2dcdf9161",
+          "target_job_id": "d9d4e786-8f4d-4cc5-813c-e5c872377022",
+          "source_job_id": "37f4486b-4a3b-40ae-8ddf-a0a2f07893c3",
+          "condition_type": "always"
+        },
+        "get-people->request": {
+          "enabled": true,
+          "id": "355cfd1e-096b-4a3f-84c3-4a45e6892916",
+          "target_job_id": "c6933216-8b9b-4f45-8da0-8b3b657b6f0c",
+          "source_job_id": "37f4486b-4a3b-40ae-8ddf-a0a2f07893c3",
+          "condition_type": "js_expression",
+          "condition_label": "needs shipment",
+          "condition_expression": "state.data = \"other\""
+        },
+        "clean-data->load-to-openSPP": {
+          "enabled": true,
+          "id": "5928cce1-a612-445b-8475-77591510e1ce",
+          "target_job_id": "c560979b-995a-41c1-8a22-ad5ccb8f75e8",
+          "source_job_id": "c88867c2-4135-45cb-8f9b-891291b08016",
+          "condition_type": "on_job_success"
+        },
+        "add-to-DW->send-error-alert": {
+          "enabled": true,
+          "id": "47a2aa59-8e43-4517-878a-d3292275a594",
+          "target_job_id": "46145ce4-bb27-42d4-836f-de8d38a70927",
+          "source_job_id": "d9d4e786-8f4d-4cc5-813c-e5c872377022",
+          "condition_type": "on_job_failure"
+        },
+        "request->send-error-alert": {
+          "enabled": true,
+          "id": "20c0ed6f-62a2-438f-89fa-4b4e4b274614",
+          "target_job_id": "46145ce4-bb27-42d4-836f-de8d38a70927",
+          "source_job_id": "c6933216-8b9b-4f45-8da0-8b3b657b6f0c",
+          "condition_type": "on_job_failure"
+        }
+      }
+    },
+    "Rwanda-School-Payment-Verification": {
+      "id": "186d3929-9889-47ce-a8a8-2795bc91092f",
+      "name": "Rwanda-School-Payment-Verification",
+      "inserted_at": "2025-08-27T09:00:06.471133Z",
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "fb89ccc0-6c53-449d-815d-2b91faf855aa",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Collect-SMS": {
+          "id": "ce14593e-55d3-4336-81f6-9979a77256cf",
+          "name": "Collect SMS",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        },
+        "Get-WhatsApp": {
+          "id": "d15f9016-2c33-4f26-bc8e-04c7cdf714b4",
+          "name": "Get WhatsApp",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-whatsapp@latest",
+          "project_credential_id": null
+        },
+        "Match-Payments": {
+          "id": "efff60aa-9072-4620-9931-3e9071928935",
+          "name": "Match Payments",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Email-Notification": {
+          "id": "92df0b03-6e3f-4815-9e8c-a2868c20cfc0",
+          "name": "Email Notification",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-gmail@latest",
+          "project_credential_id": null
+        },
+        "Record-in-Sheets": {
+          "id": "bad89fb0-7f19-47eb-8646-fd9ae94604a2",
+          "name": "Record in Sheets",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-googlesheets@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Collect-SMS": {
+          "enabled": true,
+          "id": "a8bfdc5f-0e68-4075-bfe1-5179636b98ed",
+          "target_job_id": "ce14593e-55d3-4336-81f6-9979a77256cf",
+          "source_trigger_id": "fb89ccc0-6c53-449d-815d-2b91faf855aa",
+          "condition_type": "always"
+        },
+        "Collect-SMS->Get-WhatsApp": {
+          "enabled": true,
+          "id": "aee8071c-f39a-41a0-a642-b46bda6c5dc9",
+          "target_job_id": "d15f9016-2c33-4f26-bc8e-04c7cdf714b4",
+          "source_job_id": "ce14593e-55d3-4336-81f6-9979a77256cf",
+          "condition_type": "on_job_success"
+        },
+        "Get-WhatsApp->Match-Payments": {
+          "enabled": true,
+          "id": "403f1714-b515-4df4-9eab-01f7700d96fb",
+          "target_job_id": "efff60aa-9072-4620-9931-3e9071928935",
+          "source_job_id": "d15f9016-2c33-4f26-bc8e-04c7cdf714b4",
+          "condition_type": "on_job_success"
+        },
+        "Match-Payments->Email-Notification": {
+          "enabled": true,
+          "id": "6549d8a2-7c9c-448b-a38c-7a1e9910f8c3",
+          "target_job_id": "92df0b03-6e3f-4815-9e8c-a2868c20cfc0",
+          "source_job_id": "efff60aa-9072-4620-9931-3e9071928935",
+          "condition_type": "on_job_failure"
+        },
+        "Match-Payments->Record-in-Sheets": {
+          "enabled": true,
+          "id": "d87a6366-76e9-42b7-9f51-0f573f29c896",
+          "target_job_id": "bad89fb0-7f19-47eb-8646-fd9ae94604a2",
+          "source_job_id": "efff60aa-9072-4620-9931-3e9071928935",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "My-Sandbox-Test-Workflow": {
+      "id": "8afdf736-16bd-487b-9cab-ef7d2860d0f1",
+      "name": "My Sandbox Test Workflow",
+      "inserted_at": "2025-10-14T15:42:52.782767Z",
       "lock_version": 2,
       "triggers": {
         "cron": {
+          "enabled": false,
+          "id": "11b82fed-d4bf-487a-8caa-09ea560689d5",
+          "type": "cron",
+          "cron_expression": "*/15 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-data": {
+          "id": "7a9a24f9-c2de-498f-884c-ff84000a8ff6",
+          "name": "Get data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nget('https://docs.openfn.org/documentation');\n",
+          "adaptor": "@openfn/language-http@7.0.3",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->Get-data": {
           "enabled": true,
+          "id": "f76cbc04-9f4d-4c5b-8bb6-32d16f461502",
+          "target_job_id": "7a9a24f9-c2de-498f-884c-ff84000a8ff6",
+          "source_trigger_id": "11b82fed-d4bf-487a-8caa-09ea560689d5",
+          "condition_type": "always"
+        }
+      }
+    },
+    "Any-Workflow": {
+      "id": "3785c170-7bb7-4be7-bee4-38c197e0a8de",
+      "name": "Any Workflow",
+      "inserted_at": "2025-12-17T16:42:50.211713Z",
+      "lock_version": 8,
+      "triggers": {
+        "cron": {
+          "enabled": false,
+          "id": "f0c4e430-4644-4873-81c5-e2e842a44cc3",
+          "type": "cron",
+          "cron_expression": "*/57 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-data": {
+          "id": "290ed955-e422-4da5-8a56-c313ec3a1582",
+          "name": "Get data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nget('https://docs.openfn.org/documentation');\n\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      resolve(state);\n    }, 10000);\n  });\n});\n\nfn(state => {\n  console.log(state.data);\n  \n  return state;\n});",
+          "adaptor": "@openfn/language-http@7.0.3",
+          "project_credential_id": null
+        },
+        "new": {
+          "id": "36dc4e92-4bbf-4578-8b58-95f937244f72",
+          "name": "new",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-dhis2@8.0.6",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->Get-data": {
+          "enabled": true,
+          "id": "d38cdcf0-5f73-4244-8a88-f049bf69ec0f",
+          "target_job_id": "290ed955-e422-4da5-8a56-c313ec3a1582",
+          "source_trigger_id": "f0c4e430-4644-4873-81c5-e2e842a44cc3",
+          "condition_type": "always"
+        },
+        "Get-data->new": {
+          "enabled": true,
+          "id": "42e9d620-3ac2-4b36-8efd-1271e14171db",
+          "target_job_id": "36dc4e92-4bbf-4578-8b58-95f937244f72",
+          "source_job_id": "290ed955-e422-4da5-8a56-c313ec3a1582",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "Make-it-work-this-time": {
+      "id": "d60d8176-de04-4793-9c69-80872fd9d28a",
+      "name": "Make it work this time",
+      "inserted_at": "2025-12-17T16:43:34.085339Z",
+      "lock_version": 10,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "d027e4ae-3749-4ec0-8a8c-ea80746cbe3b",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state => {\n  console.log(\"Hey this should not show_make this work_\")\n  return state\n})",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Love-this-one": {
+          "id": "44836d96-3abd-4f59-8d94-ab58204f8a9e",
+          "name": "Love this one",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "a5e1d508-16b9-44e2-8dfd-2837e520c442",
+          "target_job_id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
+          "source_trigger_id": "d027e4ae-3749-4ec0-8a8c-ea80746cbe3b",
+          "condition_type": "always"
+        },
+        "New-job->Love-this-one": {
+          "enabled": true,
+          "id": "f6f057df-cf82-401f-8eb9-78dc10aba4c9",
+          "target_job_id": "44836d96-3abd-4f59-8d94-ab58204f8a9e",
+          "source_job_id": "d0952971-b0a3-49e4-8362-a2c0a9af762f",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "New-one-for-PostHog": {
+      "id": "1097a2b0-9ce8-405d-b15e-65f5929d1a3c",
+      "name": "New one for PostHog",
+      "inserted_at": "2025-12-17T16:43:36.862771Z",
+      "lock_version": 3,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "478ed526-aa33-43de-8440-d10603963645",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "New-job": {
+          "id": "51b7c7b2-178a-431f-8355-fb7e7f248273",
+          "name": "New job",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->New-job": {
+          "enabled": true,
+          "id": "c1480127-939f-44bd-8c1e-8f167bdb3840",
+          "target_job_id": "51b7c7b2-178a-431f-8355-fb7e7f248273",
+          "source_trigger_id": "478ed526-aa33-43de-8440-d10603963645",
+          "condition_type": "js_expression",
+          "condition_expression": "!state.data && state.data"
+        }
+      }
+    },
+    "Nightly-MS-SQL-to-DHIS2-ETL-Pipeline": {
+      "id": "71137d62-0a5b-479d-8549-caba8df26f14",
+      "name": "Nightly MS SQL to DHIS2 ETL Pipeline",
+      "inserted_at": "2025-12-17T16:43:38.211981Z",
+      "lock_version": 4,
+      "triggers": {
+        "cron": {
+          "enabled": false,
+          "id": "ccce6c86-980f-4c15-9432-b52e567b3c6b",
+          "type": "cron",
+          "cron_expression": "0 18 * * *"
+        }
+      },
+      "jobs": {
+        "Fetch-data-from-MS-SQL": {
+          "id": "8e47c2ec-e173-4e0d-badd-bc50e578b56c",
+          "name": "Fetch data from MS SQL",
+          "body": "// Add operations here\n\nsql(`\n  SELECT TABLE_NAME \n  FROM INFORMATION_SCHEMA.TABLES \n  WHERE TABLE_TYPE = 'BASE TABLE'\n`);\n\n\nfn(state => {\n  const tables = state.data;\n  return { ...state, tables, allRecords: {} };\n});\n\neach(\n  dataPath('tables[*]'),\n  sql(state => `SELECT * FROM ${state.data.TABLE_NAME}`, {}, (state, refs) => {\n    const tableName = state.data.TABLE_NAME;\n    return {\n      ...state,\n      allRecords: {\n        ...state.allRecords,\n        [tableName]: refs\n      }\n    };\n  })\n);\n",
+          "adaptor": "@openfn/language-mssql@latest",
+          "project_credential_id": null
+        },
+        "Transform-data": {
+          "id": "a9c35c27-0199-43a0-8cbf-4403212d151f",
+          "name": "Transform data",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Load-aggregate-data-to-DHIS2": {
+          "id": "c4b43ba4-0a81-4640-bdcd-f54f1e40320a",
+          "name": "Load aggregate data to DHIS2",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-dhis2@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "cron->Fetch-data-from-MS-SQL": {
+          "enabled": true,
+          "id": "12e02882-9e8e-4e05-b21b-89b5e6085ec7",
+          "target_job_id": "8e47c2ec-e173-4e0d-badd-bc50e578b56c",
+          "source_trigger_id": "ccce6c86-980f-4c15-9432-b52e567b3c6b",
+          "condition_type": "always"
+        },
+        "Fetch-data-from-MS-SQL->Transform-data": {
+          "enabled": true,
+          "id": "af560f22-8cfb-4adc-96be-57b37ff7b011",
+          "target_job_id": "a9c35c27-0199-43a0-8cbf-4403212d151f",
+          "source_job_id": "8e47c2ec-e173-4e0d-badd-bc50e578b56c",
+          "condition_type": "on_job_success"
+        },
+        "Transform-data->Load-aggregate-data-to-DHIS2": {
+          "enabled": true,
+          "id": "714ce4a3-091a-48c0-ba48-26ea61bc7ffb",
+          "target_job_id": "c4b43ba4-0a81-4640-bdcd-f54f1e40320a",
+          "source_job_id": "a9c35c27-0199-43a0-8cbf-4403212d151f",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "dalgo-comp": {
+      "id": "211f7b0e-1fd1-493b-a527-d0c827920ad9",
+      "name": "dalgo-comp",
+      "inserted_at": "2025-12-17T16:43:42.463548Z",
+      "lock_version": 25,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "d2373a9a-b2bf-4884-b922-f5ebcfc740ec",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Goog": {
+          "id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
+          "name": "Goog",
+          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n\n// fn(state => {\n//   getValues('1O-a4_RgPF_p8W3I6b5M9wobA3-CBW8hLClZfUik5sos','Sheet1!A1:E1')\n// }\n// )\n",
+          "adaptor": "@openfn/language-googlesheets@latest",
+          "project_credential_id": null
+        },
+        "compare-data-from-sheets": {
+          "id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
+          "name": "compare data from sheets",
+          "body": "// Use pure JavaScript to add operations to your\n// step. Click Docs to see list of operations or visit\n// https://bit.ly/OFNJWG for our job writing guide\n// and example job codes.\n",
+          "adaptor": "@openfn/language-salesforce@4.6.5",
+          "project_credential_id": null
+        },
+        "mm": {
+          "id": "fedb91da-711c-4a7b-b223-e1717c88ea07",
+          "name": "mm",
+          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Goog": {
+          "enabled": true,
+          "id": "ab394159-66ba-4b75-891f-351bb304f312",
+          "target_job_id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
+          "source_trigger_id": "d2373a9a-b2bf-4884-b922-f5ebcfc740ec",
+          "condition_type": "always"
+        },
+        "Goog->compare-data-from-sheets": {
+          "enabled": true,
+          "id": "cd3cdc00-a8b8-4d03-97c3-e8ddb6828ee1",
+          "target_job_id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
+          "source_job_id": "8e4e358b-7f47-481a-881a-58fe7a8df562",
+          "condition_type": "on_job_success"
+        },
+        "compare-data-from-sheets->mm": {
+          "enabled": true,
+          "id": "d778e696-7c94-41cc-b97a-3a20413c3128",
+          "target_job_id": "fedb91da-711c-4a7b-b223-e1717c88ea07",
+          "source_job_id": "52f8806c-7f39-408a-a8b6-cfd0538e2146",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "OpenSPP": {
+      "id": "cd9724bb-9420-46bf-b06b-ada885457e5e",
+      "name": "OpenSPP",
+      "inserted_at": "2025-12-17T16:43:53.746726Z",
+      "lock_version": 4,
+      "triggers": {
+        "cron": {
+          "enabled": false,
           "id": "b7904480-a247-43ee-a281-ed6fd3f2c0a6",
           "type": "cron",
           "cron_expression": "00 00 01 * *"
@@ -693,7 +1172,8 @@
           "id": "6ed7bb99-86f3-4180-af5b-0e8deaf3e489",
           "target_job_id": "a42e8006-6b5a-4721-9377-e0f54c45e791",
           "source_trigger_id": "b7904480-a247-43ee-a281-ed6fd3f2c0a6",
-          "condition_type": "always"
+          "condition_type": "always",
+          "condition_label": "fun"
         },
         "Fetch-all-submissions-from-Kobotoolbox->Validate-and-map-data": {
           "enabled": true,
@@ -714,11 +1194,11 @@
     "Sanjay-Demo": {
       "id": "f153d456-b3aa-485e-9743-a43e0efbb8a5",
       "name": "Sanjay Demo",
-      "inserted_at": "2025-03-07T14:16:20.915298Z",
-      "lock_version": 6,
+      "inserted_at": "2025-12-17T16:43:56.665430Z",
+      "lock_version": 7,
       "triggers": {
         "cron": {
-          "enabled": true,
+          "enabled": false,
           "id": "83b52cee-1268-4f1c-895c-399522b09db9",
           "type": "cron",
           "cron_expression": "00 08 01 * *"
@@ -771,43 +1251,116 @@
         }
       }
     },
-    "Any-Workflow": {
-      "id": "3785c170-7bb7-4be7-bee4-38c197e0a8de",
-      "name": "Any Workflow",
-      "inserted_at": "2025-04-25T14:01:02.401620Z",
+    "Scheduled-workflow": {
+      "id": "92065338-aa8c-4a9c-8edd-9b7149552ae8",
+      "name": "Scheduled workflow",
+      "inserted_at": "2025-12-17T16:44:18.767944Z",
       "lock_version": 2,
       "triggers": {
         "cron": {
-          "enabled": false,
-          "id": "f0c4e430-4644-4873-81c5-e2e842a44cc3",
+          "enabled": true,
+          "id": "f222fd01-ba31-4256-952b-53d3470870bd",
           "type": "cron",
-          "cron_expression": "*/15 * * * *"
+          "cron_expression": "0 0 * * *"
         }
       },
       "jobs": {
-        "Get-data": {
-          "id": "290ed955-e422-4da5-8a56-c313ec3a1582",
-          "name": "Get data",
-          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nget('https://docs.openfn.org/documentation');\n",
-          "adaptor": "@openfn/language-http@7.0.3",
+        "My-job": {
+          "id": "377e2dd4-273c-458d-9f48-a74f8370a88d",
+          "name": "My job",
+          "body": "// Start writing your job code here\nfn(state => {\n  console.log(\"Running on schedule\");\n  return state;\n})",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Gmail-job": {
+          "id": "749ac738-1c7b-4a1f-b484-67364171c11a",
+          "name": "Gmail job",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-gmail@latest",
           "project_credential_id": null
         }
       },
       "edges": {
-        "cron->Get-data": {
+        "cron->My-job": {
           "enabled": true,
-          "id": "d38cdcf0-5f73-4244-8a88-f049bf69ec0f",
-          "target_job_id": "290ed955-e422-4da5-8a56-c313ec3a1582",
-          "source_trigger_id": "f0c4e430-4644-4873-81c5-e2e842a44cc3",
+          "id": "8b8d96a0-f638-4396-8aa0-bb74d1433fba",
+          "target_job_id": "377e2dd4-273c-458d-9f48-a74f8370a88d",
+          "source_trigger_id": "f222fd01-ba31-4256-952b-53d3470870bd",
           "condition_type": "always"
+        },
+        "My-job->Gmail-job": {
+          "enabled": true,
+          "id": "82232acc-0246-48c7-a865-da33e5ff3291",
+          "target_job_id": "749ac738-1c7b-4a1f-b484-67364171c11a",
+          "source_job_id": "377e2dd4-273c-458d-9f48-a74f8370a88d",
+          "condition_type": "on_job_success"
         }
       }
     },
-    "Acumen-Workflow": {
+    "HTTP-to-PostgreSQL-to-HTTP-Demo": {
+      "id": "00e765c0-52ed-425e-9273-4d2f06d9a33e",
+      "name": "HTTP to PostgreSQL to HTTP Demo",
+      "inserted_at": "2026-01-09T08:15:46.227793Z",
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "c1f6038e-560d-43b5-856a-477bd5802f8c",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Fetch-data-via-HTTP": {
+          "id": "f4d1f1cd-dbaa-4974-97d1-549d72d5a526",
+          "name": "Fetch data via HTTP",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        },
+        "Transform-data-in-PostgreSQL": {
+          "id": "c904a06f-3cea-4216-aee8-d272a67185df",
+          "name": "Transform data in PostgreSQL",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-postgresql@latest",
+          "project_credential_id": null
+        },
+        "Deliver-data-via-HTTP": {
+          "id": "7567e17f-59e3-49c6-b6ca-d9af65d4ef51",
+          "name": "Deliver data via HTTP",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-http@latest",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Fetch-data-via-HTTP": {
+          "enabled": true,
+          "id": "4a7d94a4-2cf6-460b-b1c2-eed5703f2754",
+          "target_job_id": "f4d1f1cd-dbaa-4974-97d1-549d72d5a526",
+          "source_trigger_id": "c1f6038e-560d-43b5-856a-477bd5802f8c",
+          "condition_type": "always"
+        },
+        "Fetch-data-via-HTTP->Transform-data-in-PostgreSQL": {
+          "enabled": true,
+          "id": "d28ca2c5-2a6a-4352-9869-8ccf4d250c61",
+          "target_job_id": "c904a06f-3cea-4216-aee8-d272a67185df",
+          "source_job_id": "f4d1f1cd-dbaa-4974-97d1-549d72d5a526",
+          "condition_type": "on_job_success"
+        },
+        "Transform-data-in-PostgreSQL->Deliver-data-via-HTTP": {
+          "enabled": true,
+          "id": "5bea4097-adff-45e1-ac27-9885c8be683b",
+          "target_job_id": "7567e17f-59e3-49c6-b6ca-d9af65d4ef51",
+          "source_job_id": "c904a06f-3cea-4216-aee8-d272a67185df",
+          "condition_type": "on_job_success"
+        }
+      }
+    },
+    "Acumen-Workflows": {
       "id": "ac10d7d6-8eb8-4d74-b33f-4a45e893c64a",
-      "name": "Acumen Workflow",
-      "inserted_at": "2025-05-01T09:21:43.059735Z",
-      "lock_version": 37,
+      "name": "Acumen Workflows",
+      "inserted_at": "2026-01-15T13:49:38.496656Z",
+      "lock_version": 50,
       "triggers": {
         "webhook": {
           "enabled": false,
@@ -819,50 +1372,78 @@
         "Get-into-Google-Sheets": {
           "id": "c4ec8ffb-bd34-4a95-bb93-ebc4a60e2b52",
           "name": "Get into Google Sheets",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//versionz=oore\n",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//versionz=oore",
           "adaptor": "@openfn/language-googlesheets@latest",
           "project_credential_id": null
         },
         "Clean-and-Map-data": {
           "id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
           "name": "Clean and Map data",
-          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// does it work from inspector?",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\ndoes it work from inspector?",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
         },
         "Cosmo": {
           "id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
           "name": "Cosmo",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nfn(x => x)\n",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\nfn(x => x)",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
         },
         "Do-this": {
           "id": "32f4bc40-50da-496e-a6bf-afd4e7c9aa82",
           "name": "Do this",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// Get started by adding operations from the API reference\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      console.log(state.data)\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 5 * 1000);\n  });\n});\n",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// Get started by adding operations from the API reference\nfn(state => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      console.log('wait, and then resolve');\n      console.log(state.data)\n      resolve(state);\n    // Note that this is in milliseconds \n    }, 5 * 1000);\n  });\n});",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
         },
         "yoooio": {
           "id": "3d467b89-8869-4671-95f2-9a985770f033",
           "name": "yoooio",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
         },
         "Test-GHSync": {
           "id": "82f1620c-bfce-4b21-8674-1fe8ee2f26a5",
           "name": "Test GHSync",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state =>{\n  return state\n})\n\n",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n\nfn(state =>{\n  return state\n})",
           "adaptor": "@openfn/language-common@latest",
           "project_credential_id": null
         },
         "crash": {
           "id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
           "name": "crash",
-          "body": "\n// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\ncrash()",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n// crash()",
           "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "kok": {
+          "id": "2d849ab5-b9b8-449b-82c7-5554d4435f52",
+          "name": "kok",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide",
+          "adaptor": "@openfn/language-common@3.1.1",
+          "project_credential_id": null
+        },
+        "pok": {
+          "id": "7eeee120-b7e8-4c9d-8450-5db9353db199",
+          "name": "pok",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide",
+          "adaptor": "@openfn/language-common@latest",
+          "project_credential_id": null
+        },
+        "Http": {
+          "id": "d6a885ef-1ddc-4827-882f-35b588bfd980",
+          "name": "Http",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide",
+          "adaptor": "@openfn/language-http@7.2.6",
+          "project_credential_id": "0f6cbe01-2511-4990-a990-111b3275acb0"
+        },
+        "WhatsApp-notification": {
+          "id": "a1ee2f05-2489-409b-a553-61682b46fe80",
+          "name": "WhatsApp notification",
+          "body": "// Add operations here",
+          "adaptor": "@openfn/language-whatsapp@latest",
           "project_credential_id": null
         }
       },
@@ -917,6 +1498,34 @@
           "id": "b7d362ae-d9fd-45ac-84f4-34077364a0d7",
           "target_job_id": "1ce407ee-733f-4b99-8bf9-8524ede2d481",
           "source_job_id": "c94a37a5-e36b-4711-819a-234b5f8e59e9",
+          "condition_type": "on_job_success"
+        },
+        "Clean-and-Map-data->kok": {
+          "enabled": true,
+          "id": "0bf42de8-5df0-425f-86d3-352b4e664612",
+          "target_job_id": "2d849ab5-b9b8-449b-82c7-5554d4435f52",
+          "source_job_id": "a7f5711e-fae8-47ea-a902-adedd462b2d2",
+          "condition_type": "on_job_success"
+        },
+        "kok->pok": {
+          "enabled": true,
+          "id": "f4ca36ed-396c-4851-89e8-4e66d7f12cc9",
+          "target_job_id": "7eeee120-b7e8-4c9d-8450-5db9353db199",
+          "source_job_id": "2d849ab5-b9b8-449b-82c7-5554d4435f52",
+          "condition_type": "on_job_success"
+        },
+        "kok->Http": {
+          "enabled": true,
+          "id": "96cf1409-f6d9-499f-88ba-18374c32e5f7",
+          "target_job_id": "d6a885ef-1ddc-4827-882f-35b588bfd980",
+          "source_job_id": "2d849ab5-b9b8-449b-82c7-5554d4435f52",
+          "condition_type": "on_job_success"
+        },
+        "Http->WhatsApp-notification": {
+          "enabled": true,
+          "id": "2863f217-c9cf-48fe-a56a-e88ed554cceb",
+          "target_job_id": "a1ee2f05-2489-409b-a553-61682b46fe80",
+          "source_job_id": "d6a885ef-1ddc-4827-882f-35b588bfd980",
           "condition_type": "on_job_success"
         }
       }

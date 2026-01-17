@@ -27,26 +27,33 @@ credentials:
   ayodele@openfn.org-slash-credential:
     name: slash credential
     owner: ayodele@openfn.org
+  elias@openfn.org-My-Credential-For-Test:
+    name: My Credential For Test
+    owner: elias@openfn.org
   elias@openfn.org-WFWI-Sandbox-Credential-For-Elias:
     name: WFWI Sandbox Credential For Elias
     owner: elias@openfn.org
   frank@openfn.org-frank-test-transfer:
     name: frank test transfer
     owner: frank@openfn.org
+  taylor@openfn.org-fill-out-stuff:
+    name: fill out stuff
+    owner: taylor@openfn.org
+  taylor@openfn.org-test-mercy:
+    name: test-mercy
+    owner: taylor@openfn.org
 workflows:
-  Acumen-Workflow:
-    name: Acumen Workflow
+  Acumen-Workflows:
+    name: Acumen Workflows
     jobs:
       Get-into-Google-Sheets:
         name: Get into Google Sheets
         adaptor: '@openfn/language-googlesheets@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           //versionz=oore
-
       Clean-and-Map-data:
         name: Clean and Map data
         adaptor: '@openfn/language-common@latest'
@@ -54,23 +61,20 @@ workflows:
         body: |
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
-          // does it work from inspector?
+          does it work from inspector?
       Cosmo:
         name: Cosmo
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           fn(x => x)
-
       Do-this:
         name: Do this
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           // Get started by adding operations from the API reference
@@ -84,38 +88,59 @@ workflows:
               }, 5 * 1000);
             });
           });
-
       yoooio:
         name: yoooio
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
-
       Test-GHSync:
         name: Test GHSync
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
 
           fn(state =>{
             return state
           })
-
       crash:
         name: crash
         adaptor: '@openfn/language-common@latest'
         credential: null
         body: |
-          
           // Check out the Job Writing Guide for help getting started:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
-          crash()
+          // crash()
+      kok:
+        name: kok
+        adaptor: '@openfn/language-common@3.1.1'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+      pok:
+        name: pok
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+      Http:
+        name: Http
+        adaptor: '@openfn/language-http@7.2.6'
+        credential: frank@openfn.org-frank-test-transfer
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+      WhatsApp-notification:
+        name: WhatsApp notification
+        adaptor: '@openfn/language-whatsapp@latest'
+        credential: null
+        body: |
+          // Add operations here
     triggers:
       webhook:
         type: webhook
@@ -159,6 +184,26 @@ workflows:
         target_job: crash
         condition_type: on_job_success
         enabled: true
+      Clean-and-Map-data->kok:
+        source_job: Clean-and-Map-data
+        target_job: kok
+        condition_type: on_job_success
+        enabled: true
+      kok->pok:
+        source_job: kok
+        target_job: pok
+        condition_type: on_job_success
+        enabled: true
+      kok->Http:
+        source_job: kok
+        target_job: Http
+        condition_type: on_job_success
+        enabled: true
+      Http->WhatsApp-notification:
+        source_job: Http
+        target_job: WhatsApp-notification
+        condition_type: on_job_success
+        enabled: true
   Any-Workflow:
     name: Any Workflow
     jobs:
@@ -171,16 +216,43 @@ workflows:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           get('https://docs.openfn.org/documentation');
 
+          fn(state => {
+            return new Promise((resolve, reject) => {
+              setTimeout(() => {
+                console.log('wait, and then resolve');
+                resolve(state);
+              }, 10000);
+            });
+          });
+
+          fn(state => {
+            console.log(state.data);
+            
+            return state;
+          });
+      new:
+        name: new
+        adaptor: '@openfn/language-dhis2@8.0.6'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
     triggers:
       cron:
         type: cron
-        cron_expression: '*/15 * * * *'
+        cron_expression: '*/57 * * * *'
         enabled: false
     edges:
       cron->Get-data:
         source_trigger: cron
         target_job: Get-data
         condition_type: always
+        enabled: true
+      Get-data->new:
+        source_job: Get-data
+        target_job: new
+        condition_type: on_job_success
         enabled: true
   Create-YouTrack-Issues-via-API:
     name: Create YouTrack Issues via API
@@ -271,6 +343,47 @@ workflows:
         target_job: New-job
         condition_type: always
         enabled: true
+  HTTP-to-PostgreSQL-to-HTTP-Demo:
+    name: HTTP to PostgreSQL to HTTP Demo
+    jobs:
+      Fetch-data-via-HTTP:
+        name: Fetch data via HTTP
+        adaptor: '@openfn/language-http@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Transform-data-in-PostgreSQL:
+        name: Transform data in PostgreSQL
+        adaptor: '@openfn/language-postgresql@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Deliver-data-via-HTTP:
+        name: Deliver data via HTTP
+        adaptor: '@openfn/language-http@latest'
+        credential: null
+        body: |
+          // Add operations here
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Fetch-data-via-HTTP:
+        source_trigger: webhook
+        target_job: Fetch-data-via-HTTP
+        condition_type: always
+        enabled: true
+      Fetch-data-via-HTTP->Transform-data-in-PostgreSQL:
+        source_job: Fetch-data-via-HTTP
+        target_job: Transform-data-in-PostgreSQL
+        condition_type: on_job_success
+        enabled: true
+      Transform-data-in-PostgreSQL->Deliver-data-via-HTTP:
+        source_job: Transform-data-in-PostgreSQL
+        target_job: Deliver-data-via-HTTP
+        condition_type: on_job_success
+        enabled: true
   Make-it-work-this-time:
     name: Make it work this time
     jobs:
@@ -299,7 +412,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
       webhook->New-job:
         source_trigger: webhook
@@ -310,6 +423,29 @@ workflows:
         source_job: New-job
         target_job: Love-this-one
         condition_type: on_job_success
+        enabled: true
+  My-Sandbox-Test-Workflow:
+    name: My Sandbox Test Workflow
+    jobs:
+      Get-data:
+        name: Get data
+        adaptor: '@openfn/language-http@7.0.3'
+        credential: null
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          get('https://docs.openfn.org/documentation');
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '*/15 * * * *'
+        enabled: false
+    edges:
+      cron->Get-data:
+        source_trigger: cron
+        target_job: Get-data
+        condition_type: always
         enabled: true
   New-one-for-PostHog:
     name: New one for PostHog
@@ -326,7 +462,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
       webhook->New-job:
         source_trigger: webhook
@@ -335,6 +471,75 @@ workflows:
         condition_label: null
         condition_expression: |
           !state.data && state.data
+        enabled: true
+  Nightly-MS-SQL-to-DHIS2-ETL-Pipeline:
+    name: Nightly MS SQL to DHIS2 ETL Pipeline
+    jobs:
+      Fetch-data-from-MS-SQL:
+        name: Fetch data from MS SQL
+        adaptor: '@openfn/language-mssql@latest'
+        credential: null
+        body: |
+          // Add operations here
+
+          sql(`
+            SELECT TABLE_NAME 
+            FROM INFORMATION_SCHEMA.TABLES 
+            WHERE TABLE_TYPE = 'BASE TABLE'
+          `);
+
+
+          fn(state => {
+            const tables = state.data;
+            return { ...state, tables, allRecords: {} };
+          });
+
+          each(
+            dataPath('tables[*]'),
+            sql(state => `SELECT * FROM ${state.data.TABLE_NAME}`, {}, (state, refs) => {
+              const tableName = state.data.TABLE_NAME;
+              return {
+                ...state,
+                allRecords: {
+                  ...state.allRecords,
+                  [tableName]: refs
+                }
+              };
+            })
+          );
+
+      Transform-data:
+        name: Transform data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Load-aggregate-data-to-DHIS2:
+        name: Load aggregate data to DHIS2
+        adaptor: '@openfn/language-dhis2@latest'
+        credential: null
+        body: |
+          // Add operations here
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '0 18 * * *'
+        enabled: false
+    edges:
+      cron->Fetch-data-from-MS-SQL:
+        source_trigger: cron
+        target_job: Fetch-data-from-MS-SQL
+        condition_type: always
+        enabled: true
+      Fetch-data-from-MS-SQL->Transform-data:
+        source_job: Fetch-data-from-MS-SQL
+        target_job: Transform-data
+        condition_type: on_job_success
+        enabled: true
+      Transform-data->Load-aggregate-data-to-DHIS2:
+        source_job: Transform-data
+        target_job: Load-aggregate-data-to-DHIS2
+        condition_type: on_job_success
         enabled: true
   "OpenFn-<>-Airtable":
     name: 'OpenFn <> Airtable'
@@ -396,7 +601,7 @@ workflows:
       cron:
         type: cron
         cron_expression: '00 00 01 * *'
-        enabled: true
+        enabled: false
     edges:
       cron->Fetch-all-submissions-from-Kobotoolbox:
         source_trigger: cron
@@ -411,6 +616,69 @@ workflows:
       Validate-and-map-data->Send-data-to-OpenSPP:
         source_job: Validate-and-map-data
         target_job: Send-data-to-OpenSPP
+        condition_type: on_job_success
+        enabled: true
+  Rwanda-School-Payment-Verification:
+    name: Rwanda-School-Payment-Verification
+    jobs:
+      Collect-SMS:
+        name: Collect SMS
+        adaptor: '@openfn/language-http@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Get-WhatsApp:
+        name: Get WhatsApp
+        adaptor: '@openfn/language-whatsapp@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Match-Payments:
+        name: Match Payments
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Email-Notification:
+        name: Email Notification
+        adaptor: '@openfn/language-gmail@latest'
+        credential: null
+        body: |
+          // Add operations here
+      Record-in-Sheets:
+        name: Record in Sheets
+        adaptor: '@openfn/language-googlesheets@latest'
+        credential: null
+        body: |
+          // Add operations here
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Collect-SMS:
+        source_trigger: webhook
+        target_job: Collect-SMS
+        condition_type: always
+        enabled: true
+      Collect-SMS->Get-WhatsApp:
+        source_job: Collect-SMS
+        target_job: Get-WhatsApp
+        condition_type: on_job_success
+        enabled: true
+      Get-WhatsApp->Match-Payments:
+        source_job: Get-WhatsApp
+        target_job: Match-Payments
+        condition_type: on_job_success
+        enabled: true
+      Match-Payments->Email-Notification:
+        source_job: Match-Payments
+        target_job: Email-Notification
+        condition_type: on_job_failure
+        enabled: true
+      Match-Payments->Record-in-Sheets:
+        source_job: Match-Payments
+        target_job: Record-in-Sheets
         condition_type: on_job_success
         enabled: true
   Sanjay-Demo:
@@ -452,7 +720,7 @@ workflows:
       cron:
         type: cron
         cron_expression: '00 08 01 * *'
-        enabled: true
+        enabled: false
     edges:
       cron->Fetch-Data-from-CommCare:
         source_trigger: cron
@@ -467,6 +735,41 @@ workflows:
       Clean-and-aggregate-data->Move-data-to-DHIS2:
         source_job: Clean-and-aggregate-data
         target_job: Move-data-to-DHIS2
+        condition_type: on_job_success
+        enabled: true
+  Scheduled-workflow:
+    name: Scheduled workflow
+    jobs:
+      My-job:
+        name: My job
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Start writing your job code here
+          fn(state => {
+            console.log("Running on schedule");
+            return state;
+          })
+      Gmail-job:
+        name: Gmail job
+        adaptor: '@openfn/language-gmail@latest'
+        credential: null
+        body: |
+          // Add operations here
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '0 0 * * *'
+        enabled: true
+    edges:
+      cron->My-job:
+        source_trigger: cron
+        target_job: My-job
+        condition_type: always
+        enabled: true
+      My-job->Gmail-job:
+        source_job: My-job
+        target_job: Gmail-job
         condition_type: on_job_success
         enabled: true
   Stress-testing-branches:
@@ -539,50 +842,6 @@ workflows:
         target_job: test-Job
         condition_type: always
         enabled: true
-  Test-with-UNDP:
-    name: Test with UNDP
-    jobs:
-      Validate-submissions:
-        name: Validate submissions
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Get started by adding operations from the API reference
-
-      Send-data-to-mysql-db:
-        name: Send data to mysql db
-        adaptor: '@openfn/language-mysql@latest'
-        credential: null
-        body: |
-          // Get started by adding operations from the API reference
-          fn(state => {
-            return {...state, "country":"Nigeria"}
-          })
-
-
-          // upsertMany(
-          //   'users', // the DB table
-          //   [
-          //     { name: 'one', email: 'one@openfn.org' },
-          //     { name: 'two', email: 'two@openfn.org' },
-          //   ]
-          // )
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->Validate-submissions:
-        source_trigger: webhook
-        target_job: Validate-submissions
-        condition_type: always
-        enabled: true
-      Validate-submissions->Send-data-to-mysql-db:
-        source_job: Validate-submissions
-        target_job: Send-data-to-mysql-db
-        condition_type: on_job_success
-        enabled: true
   Testing-Google-Sheets:
     name: Testing Google Sheets
     jobs:
@@ -604,114 +863,6 @@ workflows:
         source_trigger: webhook
         target_job: New-job
         condition_type: always
-        enabled: true
-  Timeout:
-    name: Timeout
-    jobs:
-      New-hsjss:
-        name: New hsjss
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-          fn(state => {
-            return new Promise((resolve, reject) => {
-              setTimeout(() => {
-                console.log('wait, and then resolve');
-                resolve(state);
-              // Note that this is in milliseconds 
-              }, 10 * 60 * 1000);
-            });
-          });
-
-      hbjj:
-        name: hbjj
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      hjvj:
-        name: hjvj
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      bj:
-        name: bj
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      bkkj:
-        name: bkkj
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-      nkn:
-        name: nkn
-        adaptor: '@openfn/language-common@latest'
-        credential: null
-        body: |
-          // Use pure JavaScript to add operations to your
-          // step. Click Docs to see list of operations or visit
-          // https://bit.ly/OFNJWG for our job writing guide
-          // and example job codes.
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: false
-    edges:
-      webhook->New-hsjss:
-        source_trigger: webhook
-        target_job: New-hsjss
-        condition_type: always
-        enabled: true
-      New-hsjss->hbjj:
-        source_job: New-hsjss
-        target_job: hbjj
-        condition_type: on_job_success
-        enabled: true
-      New-hsjss->hjvj:
-        source_job: New-hsjss
-        target_job: hjvj
-        condition_type: on_job_success
-        enabled: true
-      New-hsjss->bj:
-        source_job: New-hsjss
-        target_job: bj
-        condition_type: on_job_success
-        enabled: true
-      hbjj->bkkj:
-        source_job: hbjj
-        target_job: bkkj
-        condition_type: on_job_success
-        enabled: true
-      bkkj->nkn:
-        source_job: bkkj
-        target_job: nkn
-        condition_type: on_job_success
         enabled: true
   Yoooo:
     name: Yoooo
@@ -770,6 +921,429 @@ workflows:
         source_trigger: webhook
         target_job: Create-a-new-workflow
         condition_type: always
+        enabled: true
+  chw-to-dhis2:
+    name: chw to dhis2
+    jobs:
+      get-people:
+        name: get people
+        adaptor: '@openfn/language-kobotoolbox@latest'
+        credential: null
+        body: |
+          get('/users')
+      clean-data:
+        name: clean data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // pick out name and uniqueID
+          fn(state => {
+
+            const cleanUsers = state.data.map(u => ({
+              name: u.name,
+              uniqueId: u.phone.replace(/-/g, "").replace(/\s/g, '')
+            }));
+
+            const someCalc = state.data[1].id * 15
+            console.log('the result', someCalc);
+
+            return { cleanUsers };
+          })
+            .then(state => {
+              console.log(state);
+              return state;
+            })
+            .catch((error, state) => {
+              console.log('this wont stop me!', error)
+              return state;
+            })
+      map-and-load-TEIs:
+        name: map and load TEIs
+        adaptor: '@openfn/language-dhis2@latest'
+        credential: null
+        body: |
+          // map and load TEIs
+          each(
+            $.cleanUsers,
+            create("trackedEntityInstances", {
+              orgUnit: "FV43JisquSm" /*0001 CH Mahosot*/,
+              trackedEntityType: "MCPQUTHX1Ze" /*Person*/,
+              attributes: [
+                { attribute: "h5FuguPFF2j" /*AEFI Case ID*/, value: $.uniqueId },
+                { attribute: "mTYYajEhlPY" /*AH_EBS - Name of Farmer*/, value: $.name }
+              ]
+            })
+          )
+
+      add-to-DW:
+        name: add to DW
+        adaptor: '@openfn/language-mssql@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      request:
+        name: request
+        adaptor: '@openfn/language-openlmis@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      load-to-openSPP:
+        name: load to openSPP
+        adaptor: '@openfn/language-openspp@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      send-error-alert:
+        name: send error alert
+        adaptor: '@openfn/language-mailgun@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '10 03 * * *'
+        enabled: false
+    edges:
+      cron->get-people:
+        source_trigger: cron
+        target_job: get-people
+        condition_type: always
+        enabled: true
+      get-people->clean-data:
+        source_job: get-people
+        target_job: clean-data
+        condition_type: js_expression
+        condition_label: we have proper data
+        condition_expression: |
+          state.data.length > 0
+        enabled: true
+      clean-data->map-and-load-TEIs:
+        source_job: clean-data
+        target_job: map-and-load-TEIs
+        condition_type: on_job_success
+        enabled: true
+      get-people->add-to-DW:
+        source_job: get-people
+        target_job: add-to-DW
+        condition_type: always
+        enabled: true
+      get-people->request:
+        source_job: get-people
+        target_job: request
+        condition_type: js_expression
+        condition_label: needs shipment
+        condition_expression: |
+          state.data = "other"
+        enabled: true
+      clean-data->load-to-openSPP:
+        source_job: clean-data
+        target_job: load-to-openSPP
+        condition_type: on_job_success
+        enabled: true
+      add-to-DW->send-error-alert:
+        source_job: add-to-DW
+        target_job: send-error-alert
+        condition_type: on_job_failure
+        enabled: true
+      request->send-error-alert:
+        source_job: request
+        target_job: send-error-alert
+        condition_type: on_job_failure
+        enabled: true
+  chw-to-dhis2-1:
+    name: chw to dhis2 1
+    jobs:
+      get-people:
+        name: get people
+        adaptor: '@openfn/language-kobotoolbox@latest'
+        credential: null
+        body: |
+          get('/users')
+      clean-data:
+        name: clean data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // pick out name and uniqueID
+          fn(state => {
+
+            const cleanUsers = state.data.map(u => ({
+              name: u.name,
+              uniqueId: u.phone.replace(/-/g, "").replace(/\s/g, '')
+            }));
+
+            const someCalc = state.data[1].id * 15
+            console.log('the result', someCalc);
+
+            return { cleanUsers };
+          })
+            .then(state => {
+              console.log(state);
+              return state;
+            })
+            .catch((error, state) => {
+              console.log('this wont stop me!', error)
+              return state;
+            })
+      map-and-load-TEIs:
+        name: map and load TEIs
+        adaptor: '@openfn/language-dhis2@latest'
+        credential: null
+        body: |
+          // map and load TEIs
+          each(
+            $.cleanUsers,
+            create("trackedEntityInstances", {
+              orgUnit: "FV43JisquSm" /*0001 CH Mahosot*/,
+              trackedEntityType: "MCPQUTHX1Ze" /*Person*/,
+              attributes: [
+                { attribute: "h5FuguPFF2j" /*AEFI Case ID*/, value: $.uniqueId },
+                { attribute: "mTYYajEhlPY" /*AH_EBS - Name of Farmer*/, value: $.name }
+              ]
+            })
+          )
+
+      add-to-DW:
+        name: add to DW
+        adaptor: '@openfn/language-mssql@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      request:
+        name: request
+        adaptor: '@openfn/language-openlmis@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      load-to-openSPP:
+        name: load to openSPP
+        adaptor: '@openfn/language-openspp@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      send-error-alert:
+        name: send error alert
+        adaptor: '@openfn/language-mailgun@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '10 03 * * *'
+        enabled: false
+    edges:
+      cron->get-people:
+        source_trigger: cron
+        target_job: get-people
+        condition_type: always
+        enabled: true
+      get-people->clean-data:
+        source_job: get-people
+        target_job: clean-data
+        condition_type: js_expression
+        condition_label: we have proper data
+        condition_expression: |
+          state.data.length > 0
+        enabled: true
+      clean-data->map-and-load-TEIs:
+        source_job: clean-data
+        target_job: map-and-load-TEIs
+        condition_type: on_job_success
+        enabled: true
+      get-people->add-to-DW:
+        source_job: get-people
+        target_job: add-to-DW
+        condition_type: always
+        enabled: true
+      get-people->request:
+        source_job: get-people
+        target_job: request
+        condition_type: js_expression
+        condition_label: needs shipment
+        condition_expression: |
+          state.data = "other"
+        enabled: true
+      clean-data->load-to-openSPP:
+        source_job: clean-data
+        target_job: load-to-openSPP
+        condition_type: on_job_success
+        enabled: true
+      add-to-DW->send-error-alert:
+        source_job: add-to-DW
+        target_job: send-error-alert
+        condition_type: on_job_failure
+        enabled: true
+      request->send-error-alert:
+        source_job: request
+        target_job: send-error-alert
+        condition_type: on_job_failure
+        enabled: true
+  chw-to-dhis2-1-1:
+    name: chw to dhis2 1 1
+    jobs:
+      get-people:
+        name: get people
+        adaptor: '@openfn/language-kobotoolbox@latest'
+        credential: null
+        body: |
+          get('/users')
+      clean-data:
+        name: clean data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // pick out name and uniqueID
+          fn(state => {
+
+            const cleanUsers = state.data.map(u => ({
+              name: u.name,
+              uniqueId: u.phone.replace(/-/g, "").replace(/\s/g, '')
+            }));
+
+            const someCalc = state.data[1].id * 15
+            console.log('the result', someCalc);
+
+            return { cleanUsers };
+          })
+            .then(state => {
+              console.log(state);
+              return state;
+            })
+            .catch((error, state) => {
+              console.log('this wont stop me!', error)
+              return state;
+            })
+      map-and-load-TEIs:
+        name: map and load TEIs
+        adaptor: '@openfn/language-dhis2@latest'
+        credential: null
+        body: |
+          // map and load TEIs
+          each(
+            $.cleanUsers,
+            create("trackedEntityInstances", {
+              orgUnit: "FV43JisquSm" /*0001 CH Mahosot*/,
+              trackedEntityType: "MCPQUTHX1Ze" /*Person*/,
+              attributes: [
+                { attribute: "h5FuguPFF2j" /*AEFI Case ID*/, value: $.uniqueId },
+                { attribute: "mTYYajEhlPY" /*AH_EBS - Name of Farmer*/, value: $.name }
+              ]
+            })
+          )
+
+      add-to-DW:
+        name: add to DW
+        adaptor: '@openfn/language-mssql@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      request:
+        name: request
+        adaptor: '@openfn/language-openlmis@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      load-to-openSPP:
+        name: load to openSPP
+        adaptor: '@openfn/language-openspp@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+      send-error-alert:
+        name: send error alert
+        adaptor: '@openfn/language-mailgun@latest'
+        credential: null
+        body: |
+          
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '10 03 * * *'
+        enabled: false
+    edges:
+      cron->get-people:
+        source_trigger: cron
+        target_job: get-people
+        condition_type: always
+        enabled: true
+      get-people->clean-data:
+        source_job: get-people
+        target_job: clean-data
+        condition_type: js_expression
+        condition_label: we have proper data
+        condition_expression: |
+          state.data.length > 0
+        enabled: true
+      clean-data->map-and-load-TEIs:
+        source_job: clean-data
+        target_job: map-and-load-TEIs
+        condition_type: on_job_success
+        enabled: true
+      get-people->add-to-DW:
+        source_job: get-people
+        target_job: add-to-DW
+        condition_type: always
+        enabled: true
+      get-people->request:
+        source_job: get-people
+        target_job: request
+        condition_type: js_expression
+        condition_label: needs shipment
+        condition_expression: |
+          state.data = "other"
+        enabled: true
+      clean-data->load-to-openSPP:
+        source_job: clean-data
+        target_job: load-to-openSPP
+        condition_type: on_job_success
+        enabled: true
+      add-to-DW->send-error-alert:
+        source_job: add-to-DW
+        target_job: send-error-alert
+        condition_type: on_job_failure
+        enabled: true
+      request->send-error-alert:
+        source_job: request
+        target_job: send-error-alert
+        condition_type: on_job_failure
         enabled: true
   dalgo-comp:
     name: dalgo-comp

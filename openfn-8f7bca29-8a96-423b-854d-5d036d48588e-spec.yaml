@@ -1,8 +1,21 @@
 name: frank-demo
 description: null
 collections: null
-channels: null
+channels:
+  jsonplaceholder:
+    name: jsonplaceholder
+    destination_url: 'https://jsonplaceholder.typicode.com'
+    enabled: true
+    destination_credential: null
+  openfn-staging:
+    name: openfn staging
+    destination_url: 'https://app.staging.openfn.org'
+    enabled: true
+    destination_credential: frank@openfn.org-Basic
 credentials:
+  frank@openfn.org-Basic:
+    name: Basic
+    owner: frank@openfn.org
   frank@openfn.org-DHIS2-play:
     name: DHIS2 play
     owner: frank@openfn.org
@@ -10,6 +23,32 @@ credentials:
     name: test credential from canvas
     owner: frank@openfn.org
 workflows:
+  Event-based-workflow:
+    name: Event-based workflow
+    jobs:
+      Transform-data:
+        name: Transform data
+        adaptor: '@openfn/language-common@latest'
+        credential: null
+        body: |
+          // Validate and transform the data you've received...
+          fn(state => {
+            console.log("Do some data transformation here");
+            state.webhookResponse = {status: 200, body: state.data};
+            return state;
+          })
+
+    triggers:
+      webhook:
+        type: webhook
+        webhook_reply: after_completion
+        enabled: true
+    edges:
+      webhook->Transform-data:
+        source_trigger: webhook
+        target_job: Transform-data
+        condition_type: always
+        enabled: true
   Sample-Workflow:
     name: Sample Workflow
     jobs:
@@ -58,18 +97,10 @@ workflows:
             ]
           });
 
-      Job-4---Convert-data-to-DHIS2-format:
-        name: Job 4 - Convert data to DHIS2 format
-        adaptor: '@openfn/language-common@3.3.1'
-        credential: null
-        body: |
-          // Check out the Job Writing Guide for help getting started:
-          // https://docs.openfn.org/documentation/jobs/job-writing-guide
-
     triggers:
       webhook:
         type: webhook
-        webhook_reply: before_start
+        webhook_reply: after_completion
         enabled: true
     edges:
       webhook->Job-1---Check-if-age-is-over-18-months:
@@ -86,12 +117,4 @@ workflows:
         source_job: Job-2---Convert-data-to-DHIS2-format
         target_job: Job-3---Upload-to-DHIS2
         condition_type: on_job_success
-        enabled: true
-      Job-3---Upload-to-DHIS2->Job-4---Convert-data-to-DHIS2-format:
-        source_job: Job-3---Upload-to-DHIS2
-        target_job: Job-4---Convert-data-to-DHIS2-format
-        condition_type: js_expression
-        condition_label: Custom path
-        condition_expression: |
-          !state.errors
         enabled: true

@@ -6,7 +6,7 @@
   "color": null,
   "concurrency": null,
   "inserted_at": "2024-05-28T12:45:02Z",
-  "updated_at": "2026-05-19T10:01:52Z",
+  "updated_at": "2026-05-20T06:42:09Z",
   "channels": {
     "jsonplaceholder": {
       "enabled": true,
@@ -27,7 +27,7 @@
   "scheduled_deletion": null,
   "history_retention_period": 7,
   "dataclip_retention_period": 7,
-  "retention_policy": "retain_all",
+  "retention_policy": "erase_all",
   "project_credentials": {
     "frank@openfn.org-DHIS2-play": {
       "id": "17cd279f-4be5-4552-9dca-028caca91fb8",
@@ -111,13 +111,16 @@
     "Event-based-workflow": {
       "id": "d4766160-b3ca-4ad3-9a94-24440bf51491",
       "name": "Event-based workflow",
-      "inserted_at": "2026-05-20T04:56:37.701894Z",
-      "lock_version": 3,
+      "inserted_at": "2026-05-20T07:35:51.411201Z",
+      "lock_version": 4,
       "triggers": {
         "webhook": {
           "enabled": true,
           "id": "8bfef2a2-af22-42ca-8693-0b55e0b03f5a",
           "type": "webhook",
+          "webhook_response_config": {
+            "success_code": 200
+          },
           "webhook_reply": "after_completion"
         }
       },

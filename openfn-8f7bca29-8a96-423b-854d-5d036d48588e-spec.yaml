@@ -42,6 +42,8 @@ workflows:
       webhook:
         type: webhook
         webhook_reply: after_completion
+        webhook_response_config:
+          success_code: 200
         enabled: true
     edges:
       webhook->Transform-data:
